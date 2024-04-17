@@ -28,9 +28,9 @@ url: "https://math.hanashi.ca" # the base hostname & protocol for your site, e.g
 github_username:  furball13
 
 # Build settings
-theme: minimal
+theme: minima
 plugins:
-  - jekyll-feed
+#  - jekyll-feed
 
 # Exclude from processing.
 # The following items will not be processed, by default.

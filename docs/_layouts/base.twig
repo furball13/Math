@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Hanashi - {% block title %}{% endblock %}</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="{{ constant('URL') }}">
+    <link rel="icon" type="image/png" href="{{ constant('URL') }}public/img/favicon.png">
+    <!-- css -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="{{ constant('URL') }}public/css/primary-theme/jquery-ui-1.10.4.custom.min.css">
+    <link rel="stylesheet" href="{{ constant('URL') }}public/css/style.css">
+    <!-- jQuery -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+    <script src="{{ constant('URL') }}public/js/jquery.tablesorter.min.js"></script>
+    <!-- other JavaScript packages -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script src="https://www.google.com/jsapi"></script>
+    <script>
+      google.load('visualization', '1.0', {'packages':['controls']});
+      window.appColors = {};
+      {% for name,code in colors %}
+      window.appColors['{{ name }}'] = '{{ code }}';
+      {% endfor %}
+    </script>
+    <!-- our JavaScript -->
+    <script src="{{ constant('URL') }}public/js/application.js"></script>
+    <script src="{{ constant('URL') }}public/js/hockey.js"></script>
+</head>
+<body>
+    <!-- header -->
+    {% include '_templates/nav.twig' %}
+
+    <!-- content -->
+    <div class="container">
+    {% block content %} {% endblock %}
+    </div>
+
+    <!-- footer -->
+    {% include '_templates/footer.twig' %}
+</body>
+</html>

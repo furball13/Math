@@ -1,0 +1,39 @@
+{% set navigation = [ ['home/index', 'Home']
+                    , ['portfolio/index', 'Portfolio']
+                    , ['hockey/index', 'Hockey Database',
+                                                 [ ['hockey/players', 'Players']
+                                                 , ['hockey/games', 'Games']
+                                                 , ['hockey/teams', 'Teams']
+                                                 ]
+                      ]
+                    , ['', 'Utilities',
+                                        [ ['home/colors', 'Site Colours']
+                                        , ['utils/cronline', 'Crontab Generator']
+                                        ]
+                      ]
+                    ] %}
+{% set active_page = active_page|default('none') %}
+{% spaceless %}
+<div class="navigation">
+  <ul>
+  {% for item in navigation %}
+    <li{% if item[0] == active_page %} class="active"{% endif %}>
+      {% if item[0] is not empty %}
+        <a href="{{ constant('URL') }}{{ item[0] }}">{{ item[1] }}</a>
+      {% else %}
+        {{ item[1] }}
+      {% endif %}
+      {% if item[2] is not null %}
+        <ul>
+        {% for subitem in item[2] %}
+          <li{% if subitem[0] == active_page %} class="active"{% endif %}>
+            <a href="{{ constant('URL') }}{{ subitem[0] }}">{{ subitem[1] }}</a>
+        </li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    </li>
+  {% endfor %}
+  </ul>
+</div>
+{% endspaceless %}
