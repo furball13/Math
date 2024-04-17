@@ -18,19 +18,17 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: Your awesome title
-email: your-email@example.com
+title: Math @ Hanashi.ca
+email: math@hanashi.ca
 description: >- # this means to ignore newlines until "baseurl:"
-  Write an awesome description for your new site here. You can edit this
-  line in _config.yml. It will appear in your document head meta (for
-  Google search results) and in your feed.xml site description.
+  A small collection of math generators for practice problems and demonstrations.
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
-twitter_username: jekyllrb
-github_username:  jekyll
+url: "https://math.hanashi.ca" # the base hostname & protocol for your site, e.g. http://example.com
+#twitter_username: 
+github_username:  furball13
 
 # Build settings
-theme: minima
+theme: minimal
 plugins:
   - jekyll-feed
 
