@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Collatz Conjecture</title>
+  <title>Collatz Conjecture</title>
+  <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+  <link rel="stylesheet" href="/css/style.css">
 <script>
 let collatzArray = [];
 
@@ -67,17 +69,16 @@ function message(str)
 </script>
 
 <style>
-html { background: #ddd; }
-body { font-family: 'Segoe UI', sans-serif; max-width: 50%; margin: 2em auto; padding: 1em 2em; background: #fff; border: 1px solid #ccc; border-radius: .5em; }
+body { font-family: 'Segoe UI', sans-serif; max-width: 50%; margin: 2em auto; padding: 1em 2em; border: 1px solid #ccc; border-radius: .5em; }
 h1 { font-family: 'Segoe UI Light', 'Segoe UI', sans-serif; font-weight: 100; border-bottom: 1px solid #ccc; margin: 0 0 1em; }
-input { border: 2px solid #999; font: 1.3em/1.5 'Segoe UI Light', 'Segoe UI', sans-serif; }
+button, input { border: 2px solid #999; font: 1.3em/1.5 'Segoe UI Light', 'Segoe UI', sans-serif; }
 #calcButton { background: #ccc; }
 #path { list-style: none; margin: 2em auto 0; padding: 0; text-align: left; }
 #path li { display: inline; }
 #path li::before { content: '\0020\2192\0020'; }
 #path li:first-child::before { content: ''; }
-.oddNum { font-weight: 500; }
-.evenNum { font-weight: bold; }
+.oddNum { font-weight: 500; color: #006600; }
+.evenNum { font-weight: bold; color: #000066; }
 </style>
 
 </head>
