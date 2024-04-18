@@ -1,0 +1,7 @@
+#calcButton { background: #ccc; }
+#path { list-style: none; margin: 2em auto 0; padding: 0; text-align: left; }
+#path li { display: inline; }
+#path li::before { content: '\0020\2192\0020'; }
+#path li:first-child::before { content: ''; }
+.oddNum { font-weight: 500; color: #006600; }
+.evenNum { font-weight: bold; color: #000066; }
