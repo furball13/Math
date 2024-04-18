@@ -1,28 +1,10 @@
-<nav class="navbar navbar-default navbar-fixed-top">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1">
-        <span class="sr-only">Toggle Navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">
-        <img src="{{ constant('URL') }}public/img/icon-50.png" alt="Hanashi">
-      </a>
-    </div>
-    <div class="collapse navbar-collapse" id="navbar-collapse-1">
-      <ul class="nav navbar-nav">
-	<li><a href="{{ constant('URL') }}"><span class="sr-only">Home</span></a></li>
-	<li class="dropdown">
-	  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Math<span class="caret"></span></a>
-	  <ul class="dropdown-menu" role="menu">
-	    <li><a href="{{ constant('URL') }}polynomial/">Polynomial Generator</a></li>
-	    <li><a href="{{ constant('URL') }}collatz/">Collatz Numbers</a></li>
-	  </ul>
-	</li>
-      </ul>
-    </div>
+<nav class="site-nav">
+  <div class="navbar">
+    <ul class="nav navbar-nav">
+      <li class="page-link"><a {% if page.url == "/" %}class="active"{% endif %} href="{{ site.baseurl }}/">Home</a></li>
+      <li><a {% if page.url == "/polynomial/" %}class="active"{% endif %} href="{{ site.baseurl }}/polynomial/">Polynomial Generator</a></li>
+      <li><a {% if page.url == "/collatz/" %}class="active"{% endif %} href="{{ site.baseurl }}/collatz/">Collatz Numbers</a></li>
+    </ul>
   </div>
 </nav>
 

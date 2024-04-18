@@ -3,12 +3,14 @@
   <head>
     <meta charset="utf-8">
     <title>{{ page.title }}</title>
-    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="icon" type="image/x-icon" href="{{ site.baseurl }}/assets/images/favicon.ico">
+    <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/main.css">
   </head>
   <body>
     {% include navigation.html %}
+    <div id="content">
     {{ content }}
+    </div>
     {% include footer.html %}
   </body>
 </html>
