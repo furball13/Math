@@ -1,0 +1,42 @@
+---
+layout: post
+title:  "Polynomial Generator"
+date:   2024-04-12 11:33:19 -0700
+categories: math polynomial
+permalink: /polynomial/
+---
+<script src="{{ site.baseurl }}{% link assets/js/polynomial.js %}" type="text/javascript"></script>
+<h1>Polynomial Generator</h1>
+<div>
+  <ul>
+    <li>All polynomials can be factored
+    <li>Only positive integer coefficients</li>
+    <li>Only integer constants</li>
+    <li>May have an integer GCD</li>
+    <li>May have repeated factors, eg. (<var>x</var>+1)<sup>2</sup></li>
+  </ul>
+</div>
+<div id="controls">
+	<div class="slidecontainer">
+		<label for="degree">Degree: <span id="degreeValue">2</span></label>
+		<input type="range" min="2" max="9" value="2" class="slider" id="degreeSlider">
+	</div>
+	<div class="slidecontainer">
+		<label for="maxCoeff">Maximum coefficient size: <span id="coeffValue">1</span></label>
+		<input type="range" min="1" max="9" value="1" class="slider" id="coeffSlider">
+	</div>
+	<div class="slidecontainer">
+	      <label for="minConst">Minimum constant size: <span id="minConstValue">-4</span></label>
+	      <input type="range" min="-15" max="14" value="-4" class="slider" id="minConstSlider">
+	</div>
+	<div class="slidecontainer">
+	      <label for="maxConst">Maximum constant size: <span id="maxConstValue">4</span></label>
+	      <input type="range" min="-14" max="15" value="4" class="slider" id="maxConstSlider">
+	</div>
+	<p>
+	      <button onclick="generate();">Generate</button>
+	</p>
+</div>
+<div id="result"><p>&nbsp;</p></div>
+<div id="solution"><p>&nbsp;</p></div>
+
