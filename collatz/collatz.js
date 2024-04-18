@@ -6,7 +6,7 @@ window.onload = function()
 
 	document.getElementById('calcButton').onclick = function(e) {
 		clearPath();
-		calculate(parseInt(document.getElementById('value').value));
+		calculate(document.getElementById('value').value);
 	}
 }
 
@@ -15,12 +15,11 @@ function calculate(num)
 	// check the input
 	if (isNaN(num))
 		message("Not a number. Please retry.");
-	else if (0 >= num || 0 !== num % 1)
+	else if (0 >= num || num % 1 !== 0)
 		message("Number must be a positive integer greater than or equal to 1.");
-	else if (num >= Number.MAX_SAFE_INTEGER)
-		message("Sorry, this number is too large for this application to process.");
 	else  // input is a positive integer, yay, do stuff!
 	{
+		num = BigInt(num);
 		nextStep(num);
 
 		printPath(collatzArray[num].path);
@@ -29,24 +28,18 @@ function calculate(num)
 }
 
 function nextStep(num) {
-	let isEven = num % 2 == 0;
+	let isEven = num % 2n == 0n;
 
 	if (collatzArray[num] && collatzArray[num].used) {
 		return collatzArray[num].steps;
 	}
-	else if (num >= Number.MAX_SAFE_INTEGER) {
-	  collatzArray[num] = { used: true };
 
-	  collatzArray[num].steps = 1;
-	  collatzArray[num].path = "<li class=\""+ (isEven ? "evenNum" : "oddNum") + "\">" + num + "</li>" + "<li>Number too large; unable to continue.</li>";
-	} else {
-	  let nextNum = isEven ? (num/2) : (3 * num + 1);
+	let nextNum = isEven ? (num/2n) : (3n * num + 1n);
 
-	  collatzArray[num] = { used: true };
+	collatzArray[num] = { used: true };
 
-	  collatzArray[num].steps = nextStep(nextNum) + 1;
-	  collatzArray[num].path = "<li class=\""+ (isEven ? "evenNum" : "oddNum") + "\">" + num + "</li>" + collatzArray[nextNum].path;
-	}
+	collatzArray[num].steps = nextStep(nextNum) + 1;
+	collatzArray[num].path = "<li class=\""+ (isEven ? "evenNum" : "oddNum") + "\">" + num + "</li>" + collatzArray[nextNum].path;
 
 	return collatzArray[num].steps;
 }
