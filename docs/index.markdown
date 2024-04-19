@@ -3,7 +3,7 @@
 # To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 
 layout: default
-title: Welcome to Hanashi Math!
+title: Math Scripts
 ---
 <article class="markdown-body">
   <p>There isn't much here. Just a small (but hopefully growing) collection of math-related scripts.</p>
