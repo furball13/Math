@@ -5,40 +5,55 @@ window.addEventListener('load', function() {
 
 	document.getElementById('pathButton').onclick = function(e) {
 		let val = document.getElementById('value').value;
+		let resultElement = document.getElementById('results');
+		let resultStr = "";
 
-		clearResults();
 
-		if (checkInput(val)) {
-			calculate(BigInt(val));
+		resultElement.innerHTML = "";
+
+		try {
+			let num = BigInt(val);
+			if (num <= 0) throw new Error("Number must be a positive integer.");
+			nextStep(num);
+			resultStr += "<p role=\"status\" id=\"status\">Total Steps: " + collatzArray[num].steps + "</p>";
+			resultStr += "<ol id=\"path\">" + collatzArray[num].path + "</ol>"
+		} catch(e) {
+			resultStr = "<strong>Error:</strong> " + e.message;
+		} finally {
+			resultElement.innerHTML = resultStr;
 		}
 	}
 
 	document.getElementById('statsButton').onclick = function(e) {
 		let val = document.getElementById('value').value;
+		let resultElement = document.getElementById('results');
+		let statsElement = document.getElementById('stats');
+		let resultStr = "";
+		let pathStr = "";
+		let statsStr = "";
 
-		clearResults();
 
-		if (checkInput(val)) {
-			statistics(BigInt(val));
+		pathElement.innerHTML = "";
+		resultElement.innerHTML = "";
+		statsElement.innerHTML = "<table id=\"statistics\"><thead><tr><th>Number</th><th>Steps</th></tr></thead><tbody id=\"statsBody\"></tbody></table>";
+
+		let statsBody = document.getBodyById('stats');
+		statsBody.innerHTML = "";
+
+		try {
+			statsStr = statistics(BigInt(val));
+			pathStr += collatzArray[num].path;
+	  		resultStr = "Total Steps: " + collatzArray[num].steps;
+		} catch(e) {
+			resultStr = "<strong>Error:</strong> " + e.message;
+			statsElement.innerHTML = "";
+		} finally {
+			resultElement.innerHTML = resultStr;
+			resultElement.innerHTML += pathStr;
+			statsBody = statsStr;
 		}
 	}
 });
-
-function checkInput(val) {
-	// check the input
-	if (isNaN(val)) {
-		errorMessage("Not a number. Please retry.");
-		return false;
-	}
-	else if (0 >= val || val % 1 !== 0) {
-		errorMessage("Number must be a positive integer greater than or equal to 1.");
-		return false;
-	}
-	else {
-		// input is a positive integer, yay, we can do stuff!
-		return true;
-	}
-}
 
 function statistics(num) {
 	if (num > 10000) {
@@ -46,23 +61,13 @@ function statistics(num) {
 		return false;
 	}
 
-	document.getElementById('stats').innerHTML = "<table id=\"statistics\"><thead><tr><th>Number</th><th>Steps</th></tr></thead><tbody id=\"statsBody\"></tbody></table>";
-
 	let result = ""
 	for (let i = 1n; i <= num; i++) {
 		nextStep(i);
 		result = "<tr><td>" + i + "</td><td>" + collatzArray[i].steps + "</td></tr>" + result;
 	}
 
-	document.getElementById('statsBody').innerHTML = result;
-}
-
-function calculate(num)
-{
-	nextStep(num);
-
-	printPath(collatzArray[num].path);
-	document.getElementById('status').innerHTML = "Total Steps: " + collatzArray[num].steps;
+	return result;
 }
 
 function nextStep(num) {
@@ -80,20 +85,4 @@ function nextStep(num) {
 	collatzArray[num].path = "<li class=\""+ (isEven ? "evenNum" : "oddNum") + "\">" + num + "</li>" + collatzArray[nextNum].path;
 
 	return collatzArray[num].steps;
-}
-
-function printPath(str)
-{
-	document.getElementById('path').innerHTML += str;
-}
-
-function clearResults()
-{
-	document.getElementById('stats').innerHTML = "";
-	document.getElementById('results').innerHTML = "<ol id=\"path\"></ol><p role=\"status\" id=\"status\">&nbsp;</p>";
-}
-
-function errorMessage(str)
-{
-	document.getElementById('results').innerHTML = "<p><strong>Error:</strong> "+ str + "</p>";
 }
