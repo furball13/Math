@@ -152,17 +152,9 @@ function updateConstSliders() {
   document.getElementById("maxConstValue").innerHTML = max;
 }
 
-<<<<<<<< HEAD:polynomial/polynomial.js
-window.onload = function() {
-========
 window.addEventListener('load', function() {
->>>>>>>> jekyll:docs/assets/js/polynomial.js
   document.getElementById("degreeSlider").oninput = function() { document.getElementById("degreeValue").innerHTML = this.value; }
   document.getElementById("coeffSlider").oninput = function() { document.getElementById("coeffValue").innerHTML = this.value; }
   document.getElementById("minConstSlider").oninput = updateConstSliders;
   document.getElementById("maxConstSlider").oninput = updateConstSliders;
-<<<<<<<< HEAD:polynomial/polynomial.js
-};
-========
 });
->>>>>>>> jekyll:docs/assets/js/polynomial.js
