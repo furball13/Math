@@ -1,10 +1,8 @@
 <nav class="site-nav">
-  <div class="navbar">
-    <ul class="nav navbar-nav">
-      <li class="page-link"><a {% if page.url == "/" %}class="active"{% endif %} href="{{ site.baseurl }}/">Home</a></li>
-      <li><a {% if page.url == "/polynomial/" %}class="active"{% endif %} href="{{ site.baseurl }}/polynomial/">Polynomial Generator</a></li>
-      <li><a {% if page.url == "/collatz/" %}class="active"{% endif %} href="{{ site.baseurl }}/collatz/">Collatz Numbers</a></li>
-    </ul>
-  </div>
+  <ul class="nav navbar-nav">
+    <li class="page-link"><a {% if page.url == "/" %}class="active"{% endif %} href="{{ site.baseurl }}/">Home</a></li>
+    <li><a {% if page.url == "/polynomial/" %}class="active"{% endif %} href="{{ site.baseurl }}/polynomial/">Polynomial Generator</a></li>
+    <li><a {% if page.url == "/collatz/" %}class="active"{% endif %} href="{{ site.baseurl }}/collatz/">Collatz Numbers</a></li>
+  </ul>
 </nav>
 

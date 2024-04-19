@@ -3,11 +3,8 @@
 # To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 
 layout: default
+title: Welcome to Hanashi Math!
 ---
-<header>
-  <h1 class="title">Site Layout and Theme</h1>
-</header>
-
 <article class="markdown-body">
   <p>Text can be <strong>bold</strong>, <em>italic</em>, or <del>strikethrough</del>.</p>
 
