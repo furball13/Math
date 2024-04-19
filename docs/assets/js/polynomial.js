@@ -7,6 +7,7 @@ function generate() {
   let maxCoeff = parseInt(document.getElementById("coeffSlider").value);
   let minConst = parseInt(document.getElementById("minConstSlider").value);
   let maxConst = parseInt(document.getElementById("maxConstSlider").value);
+  let noGCF = document.getElementById('noGCF').checked;
 
   // randomly generate factors (ax + b)
   // factors are stored in 2d array - each entry is [a, b]
@@ -15,24 +16,29 @@ function generate() {
     let cn = 0;
     let factor = [];
 
-    // randomize a coefficient for the factor (a in (ax + b))
-    while (ce == 0) {
-      ce = Math.floor(Math.random() * maxCoeff + 1);
-    }
-
-    // randomize a constant for the factor (b in (ax + b))
-    while (cn == 0) {
-      cn = Math.floor(Math.random() * (maxConst - minConst + 1)) + minConst;
-    }
-
-    // check for common factors
-    for (let i = Math.min(Math.abs(ce), Math.abs(cn)); i > 0; i--) {
-      if (ce % i == 0 && cn % i == 0) {
-        ce /= i;
-	cn /= i;
-	gcf *= i;
+    do {
+      if (noGCF) {
+        gcf = 1;
       }
-    }
+      // randomize a coefficient for the factor (a in (ax + b))
+      while (ce == 0) {
+	ce = Math.floor(Math.random() * maxCoeff + 1);
+      }
+
+      // randomize a constant for the factor (b in (ax + b))
+      while (cn == 0) {
+	cn = Math.floor(Math.random() * (maxConst - minConst + 1)) + minConst;
+      }
+
+      // check for common factors
+      for (let i = Math.min(Math.abs(ce), Math.abs(cn)); i > 0; i--) {
+	if (ce % i == 0 && cn % i == 0) {
+	  ce /= i;
+	  cn /= i;
+	  gcf *= i;
+	}
+      }
+    } while (noGCF && gcf > 1);
 
     factor.push(ce);
     factor.push(cn);
@@ -146,9 +152,9 @@ function updateConstSliders() {
   document.getElementById("maxConstValue").innerHTML = max;
 }
 
-window.onload = function() {
+window.addEventListener('load', function() {
   document.getElementById("degreeSlider").oninput = function() { document.getElementById("degreeValue").innerHTML = this.value; }
   document.getElementById("coeffSlider").oninput = function() { document.getElementById("coeffValue").innerHTML = this.value; }
   document.getElementById("minConstSlider").oninput = updateConstSliders;
   document.getElementById("maxConstSlider").oninput = updateConstSliders;
-};
+});

@@ -1,7 +1,7 @@
-window.onload = function() {
-  const hamburgerBtn = document.querySelector("#navToggle");
+window.addEventListener('load', function() {
+  const navToggle = document.querySelector("#navToggle");
   const navBar = document.querySelector("nav");
-  hamburgerBtn.onclick = function() {
+  navToggle.onclick = function() {
     navBar.classList.toggle('visible');
   }
-}
+});

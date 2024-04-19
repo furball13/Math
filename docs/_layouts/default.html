@@ -9,7 +9,9 @@
     <base href="{{ site.baseurl }}">
     <link rel="icon" type="image/x-icon" href="{{ site.baseurl }}/assets/img/favicon.ico">
     <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/main.css">
-    <script type="text/javascript" src="{{ site.baseurl }}/assets/js/site.js }}"></script>
+    <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/colours.css">
+    {% if page.style %}<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/{{ page.style }}.css">{% endif %}
+    <script type="text/javascript" src="{{ site.baseurl }}/assets/js/site.js"></script>
   </head>
 
   <body>

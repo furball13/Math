@@ -1,7 +1,6 @@
 let collatzArray = [];
 
-window.onload = function()
-{
+window.addEventListener('load', function() {
 	collatzArray[1] = { steps: 0, used: true, path: "<li class=\"oddNum\">1</li>" };
 
 	document.getElementById('pathButton').onclick = function(e) {
@@ -23,7 +22,7 @@ window.onload = function()
 			statistics(BigInt(val));
 		}
 	}
-}
+});
 
 function checkInput(val) {
 	// check the input

@@ -1,7 +1,29 @@
 <nav>
   <ul class="nav navbar-nav">
-    <li class="page-link"><a {% if page.url == "/" %}class="active"{% endif %} href="{{ site.baseurl }}/">Home</a></li>
-    <li><a {% if page.url == "/polynomial/" %}class="active"{% endif %} href="{{ site.baseurl }}/polynomial/">Polynomial Generator</a></li>
-    <li><a {% if page.url == "/collatz/" %}class="active"{% endif %} href="{{ site.baseurl }}/collatz/">Collatz Numbers</a></li>
+    <li><a {% if page.url == site.baseurl and page.url == '/' %}class="active"{% endif %} href="{{ site.baseurl }}/">Home</a></li>
+  {% assign sorted_pages = site.posts | sort: 'date' %}
+  {% comment %}
+  {% assign sorted_pages = site.posts | sort: 'title' %}
+  {% endcomment %}
+  {% assign categories = sorted_pages | map: 'category' | uniq %}
+  {% for category in categories %}
+    {% if category != nil %}
+      <li><span>{{ category }}</span>
+        <ul class="nav navbar-submenu">
+	{% for nav_post in sorted_pages %}
+	  {% if nav_post.category == category %}
+	  <li><a {% if page.url == nav_post.url %}class="active"{% endif %} href="{{ nav_post.url | relative_url }}">{{ nav_post.title }}</a></li>
+	  {% endif %}
+	{% endfor %}
+        </ul>
+      </li>
+    {% else %}
+      {% for nav_post in sorted_pages %}
+        {% if nav_post.category == nil %}
+	<li><a {% if page.url == nav_post.url %}class="active"{% endif %} href="{{ nav_post.url | relative_url }}">{{ nav_post.title }}</a></li>
+	{% endif %}
+      {% endfor %}
+    {% endif %}
+  {% endfor %}
   </ul>
 </nav>
