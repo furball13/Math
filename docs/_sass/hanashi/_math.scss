@@ -1,0 +1,46 @@
+/** Math Formatting */
+.equation {
+	font-family: $font-family_serif;
+}
+var {
+	font-family: $font-family_serif;
+	font-style: italic;
+}
+
+.oddNum {
+	color: #006600;
+}
+.evenNum {
+	color: #000066;
+}
+
+/** Code Formatting */
+code {
+	font-size: 15px;
+	border: 1px solid $color-dark-1;
+	border-radius: 3px;
+	background-color: $color-light-2;
+	padding: 1px 5px;
+}
+
+/** Collatz path formatting */
+.collatzPath {
+	#path {
+		list-style: none;
+		margin: 1em auto 0;
+		padding: 0;
+		text-align: left;
+		li {
+			display: inline;
+		}
+		li::before {
+			content: '\0020\2192\0020';
+		}
+		li:first-child::before {
+			content: '';
+		}
+		.oddNum, .evenNum {
+			font-weight: bold;
+		}
+	}
+}
