@@ -3,7 +3,9 @@
 
 /** Controls */
 #controls {
-	border: 1px solid {{ site.colors.secondary3 }};
+	border: 1px solid red;
+	padding: 1em;
+	margin-bottom: 1em;
 }
 
 /** Problems */
@@ -13,7 +15,7 @@
 }
 
 #problems .problem {
-	border: 1px solid {{ site.colors.secondary4 }};
+	border: 1px solid brown;
 }
 
 #problems .question {

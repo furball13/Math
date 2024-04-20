@@ -26,6 +26,8 @@ baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://math.hanashi.ca" # the base hostname & protocol for your site, e.g. http://example.com
 github_username:  furball13
 
+#Color settings
+
 # Build settings
 #theme: jekyll-theme-time-machine
 #remote_theme: pages-themes/time-machine@v0.2.0
