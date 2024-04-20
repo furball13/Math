@@ -2,16 +2,14 @@
 ---
 
 /** Site Theme */
-$background-color_1: #fff7f2;
-$background-color_2: #f8c260;
-$background-color_inverse: #523604;
-$color_1: #523604;
-$color_2: #685220;
-$color_inverse: #fff7f2;
-$color_link: #522404;
-$color_link_active: #e36821;
-$border-color_1: #523604;
-$border-color_2: #ffeac4;
+$color-light-1: #fff7e8;
+$color-light-2: #dfe0df;
+$color-dark-1: #523604;
+$color-dark-2: #c08521;
+$color-contrast-1: #f8c260;
+$color-contrast-2: #edc38d;
+$color_link: #00796c;
+$color_link_active: #00473d;
 
 $font-family_sans: "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
 $font-family_serif: Georgia, serif;
@@ -27,10 +25,10 @@ body {
 	margin: 0;
 	padding: 0;
 	font: 400 16px/1.5;
-	background: $background-color_1;
-	color: $color_1;
+	background: $color-light-1;
+	color: $color-dark-1;
 	background-image: none;
-	border-color: $border-color_1;
+	border-color: $color-dark-1;
 	min-height: 100vh;
 	font-family: $font-family-sans;
 }
@@ -89,8 +87,8 @@ blockquote {
 	margin: 0;
 	padding: 0;
 	margin-bottom: 15px;
-	color: $color_2;
-	border-left: 4px solid $border-color_2;
+	color: $color-dark-2;
+	border-left: 4px solid $color-dark-2;
 	padding-left: 15px;
 	font-size: 18px;
 	letter-spacing: -1px;
@@ -106,9 +104,9 @@ pre {
 	padding: 0;
 	margin-bottom: 15px;
 	font-size: 15px;
-	border: 1px solid $border_color_1;
+	border: 1px solid $color-dark-1;
 	border-radius: 3px;
-	background-color: $background-color_2;
+	background-color: $color-light-2;
 	padding: 8px 12px;
 	overflow-x: auto;
 	>code {
@@ -175,8 +173,8 @@ main {
 
 /** Site Header */
 header {
-	background: $background-color_inverse;
-	color: $color_inverse;
+	background: $color-dark-1;
+	color: $color-light-1;
 	text-align: center;
 	height: 4em;
 	padding-top: 1em;
@@ -190,7 +188,7 @@ header {
 		display: block;
 		background: none;
 		border: none;
-		color: $color_inverse;
+		color: $color-light-1;
 		font-size: 24px;
 		cursor: pointer;
 		padding: 10px;
@@ -204,7 +202,7 @@ header {
 /** Site Navigation **/
 nav {
 	display: none;
-	background-color: $background-color_2;
+	background-color: $color-contrast-1;
 	@media screen and (min-width: $break-points_tablet) {
 	        display: block;
 		width: 250px;
@@ -247,12 +245,12 @@ nav {
 
 /** Site Footer */
 footer {
-	border-top: 1px solid $border-color_1;
+	border-top: 1px solid $color-dark-1;
 	width: 100%;
 	text-align: center;
 	padding-top: 1em;
 	font-size: 15px;
-	color: $color_2;
+	color: $color-dark-2;
 }
 
 /** Images */
@@ -312,18 +310,18 @@ var {
 	margin-top: 1em;
 }
 button {
-	border: 1px solid $border-color_1;
+	border: 1px solid $color-dark-1;
 	border-radius: 5px;
 	padding: 3px 5px;
-	background-color: $background-color_2;
-	color: $color_2;
+	background-color: $color-light-2;
+	color: $color-dark-1;
 }
 .slidecontainer {
 	label {
 		width: 50%;
 		max-width: 13em;
 		span {
-			color: $color_2;
+			color: $color-dark-2;
 			float: right;
 		}
 	}
@@ -336,9 +334,9 @@ button {
 /** Code Formatting */
 code {
 	font-size: 15px;
-	border: 1px solid $border-color_1;
+	border: 1px solid $color-dark-1;
 	border-radius: 3px;
-	background-color: $background-color_2;
+	background-color: $color-light-2;
 	padding: 1px 5px;
 }
 
@@ -347,7 +345,7 @@ code {
 	width: 16px;
 	height: 16px;
 	display: inline-block;
-	fill: $color_1;
+	fill: $color-dark-1;
 	padding-right: 5px;
 	vertical-align: text-top;
 }
@@ -358,20 +356,20 @@ table {
 	width: 100%;
 	text-align: left;
 	border-collapse: collapse;
-	border: 1px solid $border-color_1;
+	border: 1px solid $color-dark-1;
 	tr {
 		&:nth-child(even) {
-			background-color: $background-color_2;
+			background-color: $color-light-2;
 		}
 	}
 	th {
 		padding: 10px 15px;
-		background-color: $background-color_inverse;
-		color: $color_inverse;
-		border: 1px solid $border-color_1;
+		background-color: $color-dark-2;
+		color: $color-light-1;
+		border: 1px solid $color-dark-1;
 	}
 	td {
 		padding: 10px 15px;
-		border: 1px solid #e8e8e8;
+		border: 1px solid $color-dark-1;
 	}
 }
