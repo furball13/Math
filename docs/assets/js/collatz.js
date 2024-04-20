@@ -44,18 +44,21 @@ window.addEventListener('load', function() {
 
 	function statistics(num) {
 		if (num > 10000) {
-			throw new Error("Number is too large for this function.");
+			//throw new Error("Number is too large for this function.");
 		}
 
 		nextStep(num);
 
-		let result = "";
 		let maxSteps = { num: 1, steps: 0 };
-		let counter = collatzArray.filter(function(el) { return el && el.used; }).length;
+		let counter = 0;
 		let stepDist = [];
+		let result = [];
 
-		for (let i = 1n; i <= num; i++) {
-			if (!collatzArray[i]) continue;  // Not every number is done yet
+		for (let iStr in collatzArray) {
+		        let i = BigInt(iStr);
+			if (!collatzArray[i]) console.error(`Unused element in array iterator. Index: ${i}.`);  // Not every number is done yet
+
+			counter++;
 
 			if (!stepDist[collatzArray[i].steps]) stepDist[collatzArray[i].steps] = 0;
 			stepDist[collatzArray[i].steps]++;
@@ -66,17 +69,17 @@ window.addEventListener('load', function() {
 			}
 		}
 
-		result += "<p>" + counter + " numbers calculated.</p>";
-		result += "<p>Maximum Steps: " + maxSteps.steps + " steps for " + maxSteps.num + "</p>";
-		result += "Distribution:<table><thead><tr><th>Steps</th><th>Times Occurred</th></tr></thead><tbody>";
-		for (i = 0; i <= maxSteps.steps; i++) {
+		result.push(`<p>${counter} numbers calculated.</p>`);
+		result.push(`<p>Maximum Steps: ${maxSteps.steps} steps for ${maxSteps.num}</p>`);
+		result.push("Distribution:<table><thead><tr><th>Number of Steps</th><th>Times Occurred</th></tr></thead><tbody>");
+		for (let i = 3; i <= maxSteps.steps; i++) {
 			if (stepDist[i]) {
-				result += "<tr><td>" + i + "</td><td>" + stepDist[i] + "</td></tr>";
+				result.push(`<tr><td>${i}</td><td>${stepDist[i]}</td></tr>`);
 			}
 		}
-		result += "</tbody></table>";
+		result.push("</tbody></table>");
 
-		return result;
+		return result.join("");
 	}
 
 	function nextStep(num) {
