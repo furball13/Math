@@ -1,0 +1,26 @@
+---
+---
+
+/** Controls */
+#controls {
+	border: 1px solid {{ site.colors.secondary3 }};
+}
+
+/** Problems */
+#problems {
+	display: flex;
+	flex-flow: row wrap;
+}
+
+#problems .problem {
+	border: 1px solid {{ site.colors.secondary4 }};
+}
+
+#problems .question {
+	padding: 1em 4em;
+}
+
+/** Solutions */
+#solutions {
+	display: none;
+}
