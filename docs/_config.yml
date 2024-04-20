@@ -25,29 +25,11 @@ baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://math.hanashi.ca" # the base hostname & protocol for your site, e.g. http://example.com
 github_username:  furball13
 
-# Style settings
-colors1:
-  background: #ffffb3
-  background2: #dcab6b
-  text: #6a381f
-  border: #774e24
-  highlight: #6e0d25
-
-colors2:
-  background: #
-  background2: #
-  background3:
-  text: #
-  text2: #
-  text3: #
-  highlight: #
-  highlight2: #
-  highlight3: #
-
- 
 # Build settings
 #theme: jekyll-theme-time-machine
 #remote_theme: pages-themes/time-machine@v0.2.0
+sass:
+  style: compact # possible values: nested expanded compact compressed
 plugins:
 #  - jekyll-feed
 #  - jekyll-remote-theme
