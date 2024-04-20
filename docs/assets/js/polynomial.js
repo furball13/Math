@@ -1,3 +1,4 @@
+/** Generate a factorable polynomial - returns { question, solution } */
 function generate() {
   const COEFF = 0, CONST = 1;
   let factors = [];

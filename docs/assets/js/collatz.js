@@ -24,6 +24,7 @@ window.addEventListener('load', function() {
 		}
 	}
 
+	/*
 	document.getElementById('statsButton').onclick = function(e) {
 		let val = document.getElementById('value').value;
 		let resultElement = document.getElementById('results');
@@ -41,6 +42,7 @@ window.addEventListener('load', function() {
 			resultElement.innerHTML = resultStr;
 		}
 	}
+	*/
 
 	function statistics(num) {
 		if (num > 10000) {
