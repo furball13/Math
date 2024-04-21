@@ -39,9 +39,9 @@ function ProblemSet(numQuestions) {
 
     this.questions.push(`<div id="problem${i}" class="problem questionBlock">`);
     this.questions.push(`<span class="questionNumber">${i}. </span>`);
-    this.questions.push('<div class="question equation">');
+    this.questions.push('<span class="question equation">');
     this.questions.push(problem.getQuestion());
-    this.questions.push('</div>');
+    this.questions.push('</span>');
     this.questions.push(`<button class="reveal" id="show${i}">Show Solution</button>`);
     this.questions.push('</div>');
 

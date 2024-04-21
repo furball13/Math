@@ -44,3 +44,105 @@ code {
 		}
 	}
 }
+
+/** Problemset Styling */
+/** Controls */
+#controls {
+	border: 1px solid $color-dark-1;
+	padding: 1em;
+	margin-bottom: 1em;
+	@media print {
+		display: none;
+	}
+}
+
+/** Problems */
+#problems {
+	display: flex;
+	flex-flow: row wrap;
+	@media print {
+		justify-content: flex-start;
+	}
+
+	.questionBlock {
+		border: 1px solid $color-dark-2;
+		padding: 0.3em;
+		flex-grow: 1;
+		flex-shrink: 1;
+		flex-basis: 15em;
+		min-height: 10em;
+		display: grid;
+		grid-template-columns: 2em auto;
+		grid-template-rows: 80% 20%;
+		justify-content: start;
+		align-content: start;
+		column-gap: 0;
+		row-gap: 0;
+
+		@media print {
+			flex-basis: 10em;
+			border: none;
+		}
+
+		.questionNumber {
+			grid-column: 1 / span 1;
+			grid-row: 1 / span 1;
+
+		}
+
+		.question {
+			font-size: 130%;
+			grid-column: 2 / span 1;
+			grid-row: 1 / span 1;
+			@media print {
+			}
+		}
+
+		.reveal {
+			align-self: end;
+			grid-column: 1 / span 2;
+			grid-row: 2 / span 1;
+			@media print {
+				display: none;
+			}
+		}
+
+		.solution {
+			font-size: 130%;
+			margin-left: 2em;
+			grid-column: 1 / span 2;
+			grid-row: 2 / span 1;
+			@media print {
+				display: none;
+			}
+		}
+		.solution::before {
+			content: "= "
+		};
+	}
+
+	@media print {
+		border-bottom: 1px solid $color-dark-1;
+	}
+}
+
+/** Solutions */
+#solutions {
+	display: none;
+
+	@media print {
+		display: block;
+		display: flex;
+		flex-flow: row wrap;
+		font-size: 10pt;
+		justify-content: flex-start;
+
+		.solution {
+			flex-basis: 10em;
+			.questionNumber {
+				display: inline-block;
+				width: 2em;
+			}
+		}
+	}
+}
