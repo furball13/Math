@@ -1,40 +1,54 @@
-window.addEventListener('load', function() {
-  createProblems();
-  setBindings();
+import { ArithmeticProblem } from '/assets/js/arithmetic.js';
 
-  function setBindings() {
-    let showButtons = document.querySelectorAll('button.reveal');
-    showButtons.forEach(function(button) {
-      button.addEventListener('click', function() {
-	var buttonId = this.id;
-	var solutionId = buttonId.replace('show', 'answer');
+export class ProblemSet {
+  constructor(problemType) {
+    this.questions = [];
+    this.solutions = [];
 
-	var solution = document.getElementById(solutionId);
+    /* Get the HTML containers */
+    this.problemsDiv = document.getElementById('problems');
+    this.solutionsDiv = document.getElementById('solutions');
+    this.controlsDiv = document.getElementById('controls');
 
-	button.parentNode.replaceChild(solution.cloneNode(true), button);
-      });
-    });
+    
+    try {
+      this.problemClass = ProblemSet.determineType(problemType)
+      this.createProblems();
+      this.setShowBindings();
+    } catch(e) {
+       this.problemsDiv.innerHTML = '<strong>Error:</strong> ' + e.message;
+    }
   }
 
-  function createProblems() {
-    let problemsDiv = document.getElementById('problems');
-    let solutionsDiv = document.getElementById('solutions');
-    let n = 12; // number of problems (TODO - get from controls)
-    let problems = new ProblemSet(n);
+  /* Determine problem type (passed in from calling function) */
+  static determineType(problemType) {
+    const problemClasses = {
+      "arithmetic": ArithmeticProblem,
+      //"polynomial": PolynomialProblem,
+    }
 
-    problemsDiv.innerHTML = problems.getQuestions();
-    solutionsDiv.innerHTML = problems.getAnswers();
+    const problemClass = problemClasses[problemType];
+    if (!problemClass) {
+      console.log('Undefined problem type: ' + problemClass);
+      throw new Error('No problems available yet.');
+      return;
+    }
+
+    return problemClass;
   }
+}
 
-});
+ProblemSet.prototype.createProblems = function() {
+  /* Get form controls from page */
+  const controls = [];
+  this.controlsDiv.querySelectorAll('input').forEach(function(field) {
+    controls[field.id] = field.value;
+  })
+  const problem = new this.problemClass(controls);
 
-
-function ProblemSet(numQuestions) {
-  this.questions = [];
-  this.solutions = [];
-
-  for (i = 1; i <= numQuestions; i++) {
-    let problem = new Problem();
+  /* Loop through and create all problems */
+  let numQuestions = (controls["numProblems"] || 1);
+  for (let i = 1; i <= numQuestions; i++) {
     problem.generate();
 
     this.questions.push(`<div id="problem${i}" class="problem questionBlock">`);
@@ -51,7 +65,29 @@ function ProblemSet(numQuestions) {
     this.solutions.push(problem.getAnswer());
     this.solutions.push('</span>');
     this.solutions.push('</div>');
+
   }
+
+  /* Add the problems and solutions to the page */
+  this.problemsDiv.innerHTML = this.questions.join('');
+  this.solutionsDiv.innerHTML = this.solutions.join('');
+
+  /* Bind "show solution" buttons */
+  this.setShowBindings();
+}
+
+ProblemSet.prototype.setShowBindings = function() {
+  let showButtons = document.querySelectorAll('button.reveal');
+  showButtons.forEach(function(button) {
+    button.addEventListener('click', function() {
+      var buttonId = this.id;
+      var solutionId = buttonId.replace('show', 'answer');
+
+      var solution = document.getElementById(solutionId);
+
+      button.parentNode.replaceChild(solution.cloneNode(true), button);
+    });
+  });
 }
 
 ProblemSet.prototype.getQuestions = function() {
@@ -63,44 +99,21 @@ ProblemSet.prototype.getAnswers = function() {
 }
 
 /** generic problem - extend in each problem type */
-function Problem(params) {
-  this.question = '';
-  this.answer = '';
+export class Problem {
+  constructor(params) {
+    this.params = params;
+    this.question = '';
+    this.answer = '';
+  }
+
+  static randomIntegerInRange = function(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
 }
 
 /** placeholder function - override in each problem type */
 Problem.prototype.generate = function() {
-  let ops = ['+', '-', '*', '/'];
-  let question = [];
-  let a = 0, b = 0, opChoice = 0, ans = 0;
-
-  do {
-    a = Math.floor(Math.random() * 10);
-    b = Math.floor(Math.random() * 10);
-    opChoice = Math.floor(Math.random() * 4);
-
-
-    switch (opChoice) {
-      case 0: ans = (a + b); break;
-      case 1: ans = (a - b); break;
-      case 2: ans = (a * b); break;
-      case 3: ans = (a / b); break;
-      default: ans = `Undefined Operation: ${opChoice}`;
-    }
-  } while ( !Number.isInteger(ans) );
-
-  question.push(a, ops[opChoice], b);
-  this.question = question.join(' ');
-  this.answer = ans;
-
-}
-
-Problem.prototype.toString = function() {
-  let response = [];
-
-  response.push(this.question, '=', this.answer);
-
-  return response.join(' ');
 }
 
 Problem.prototype.getQuestion = function() {
@@ -109,4 +122,12 @@ Problem.prototype.getQuestion = function() {
 
 Problem.prototype.getAnswer = function() {
   return this.answer;
+}
+
+Problem.prototype.toString = function() {
+  let response = [];
+
+  response.push(this.question, '=', this.answer);
+
+  return response.join(' ');
 }
