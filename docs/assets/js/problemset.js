@@ -1,3 +1,4 @@
+import { Utils } from '/assets/js/utils.js';
 import { ArithmeticProblem } from '/assets/js/arithmetic.js';
 
 export class ProblemSet {
@@ -12,16 +13,16 @@ export class ProblemSet {
 
     
     try {
-      this.problemClass = ProblemSet.determineType(problemType)
+      this.problemClass = ProblemSet.getProblemClass(problemType)
       this.createProblems();
-      this.setShowBindings();
     } catch(e) {
+       console.log(e);
        this.problemsDiv.innerHTML = '<strong>Error:</strong> ' + e.message;
     }
   }
 
   /* Determine problem type (passed in from calling function) */
-  static determineType(problemType) {
+  static getProblemClass(problemType) {
     const problemClasses = {
       "arithmetic": ArithmeticProblem,
       //"polynomial": PolynomialProblem,
@@ -29,8 +30,8 @@ export class ProblemSet {
 
     const problemClass = problemClasses[problemType];
     if (!problemClass) {
-      console.log('Undefined problem type: ' + problemClass);
-      throw new Error('No problems available yet.');
+      console.log('Undefined problem type: ' + problemType);
+      throw new Error('No ' + problemType + ' problems available.');
       return;
     }
 
@@ -39,16 +40,14 @@ export class ProblemSet {
 }
 
 ProblemSet.prototype.createProblems = function() {
-  /* Get form controls from page */
-  const controls = [];
-  this.controlsDiv.querySelectorAll('input').forEach(function(field) {
-    controls[field.id] = field.value;
-  })
-  const problem = new this.problemClass(controls);
+  const controls = Utils.getFormInputs('#controls');
 
   /* Loop through and create all problems */
-  let numQuestions = (controls["numProblems"] || 1);
+  let numQuestions = (controls['numProblems'] || 1);
+  if (numProblems > 99) { numProblems = 99; }
+
   for (let i = 1; i <= numQuestions; i++) {
+    const problem = new this.problemClass(controls);
     problem.generate();
 
     this.questions.push(`<div id="problem${i}" class="problem questionBlock">`);
@@ -72,7 +71,6 @@ ProblemSet.prototype.createProblems = function() {
   this.problemsDiv.innerHTML = this.questions.join('');
   this.solutionsDiv.innerHTML = this.solutions.join('');
 
-  /* Bind "show solution" buttons */
   this.setShowBindings();
 }
 
@@ -80,12 +78,15 @@ ProblemSet.prototype.setShowBindings = function() {
   let showButtons = document.querySelectorAll('button.reveal');
   showButtons.forEach(function(button) {
     button.addEventListener('click', function() {
-      var buttonId = this.id;
-      var solutionId = buttonId.replace('show', 'answer');
+      var solutionId = this.id.replace('show', 'answer');
 
       var solution = document.getElementById(solutionId);
 
-      button.parentNode.replaceChild(solution.cloneNode(true), button);
+      if (solution && button.parentNode) {
+	button.parentNode.replaceChild(solution.cloneNode(true), button);
+      } else {
+        console.log('ProblemSet.setShowBindings: solution or parentNode is null');
+      }
     });
   });
 }
@@ -104,10 +105,6 @@ export class Problem {
     this.params = params;
     this.question = '';
     this.answer = '';
-  }
-
-  static randomIntegerInRange = function(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
 }

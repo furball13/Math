@@ -1,28 +1,26 @@
+import { Utils } from '/assets/js/utils.js';
 import { Problem } from '/assets/js/problemset.js';
 import { ProblemSet } from '/assets/js/problemset.js';
 
 window.addEventListener('load', function() {
-  const generateButton = document.getElementById('generateProblems');
-
   /* Add event listeners */
-  generateButton.addEventListener('click', function() {
+  document.getElementById('generateProblems').addEventListener('click', function() {
     const problems = new ProblemSet('arithmetic');
   });
-  document.getElementById("maxMagnitudeSlider").oninput = function() { document.getElementById("maxMagnitudeValue").innerHTML = this.value; }
 });
   
 export class ArithmeticProblem extends Problem {
   constructor(params) {
     super();
-    this.negativesAllowed = params.negativesAllowed == 'on';
-    this.maxMagnitude = parseInt(params.maxMagnitudeSlider);
+    this.negativesAllowed = params.negativesAllowed;
+    this.maxMagnitude = parseInt(params.maxMagnitude);
     this.ops = [];
     this.questionParts = [];
 
-    if (params.additionCheck == 'on') { this.ops.push('+'); }
-    if (params.subtractionCheck == 'on') { this.ops.push('-'); }
-    if (params.multiplicationCheck == 'on') { this.ops.push('*'); }
-    if (params.divisionCheck == 'on') { this.ops.push('/'); }
+    if (params.additionCheck) { this.ops.push('+'); }
+    if (params.subtractionCheck) { this.ops.push('-'); }
+    if (params.multiplicationCheck) { this.ops.push('&times;'); }
+    if (params.divisionCheck) { this.ops.push('&divide;'); }
 
   }
 }
@@ -33,24 +31,27 @@ ArithmeticProblem.prototype.generate = function() {
   const max = this.maxMagnitude;
 
   do {
-    a = Problem.randomIntegerInRange(min, max);
-    b = Problem.randomIntegerInRange(min, max);
+    a = Utils.randomIntegerInRange(min, max);
+    b = Utils.randomIntegerInRange(min, max);
 
     opChoice = Math.floor(Math.random() * this.ops.length);
 
     switch (this.ops[opChoice]) {
       case '+': ans = (a + b); break;
       case '-': ans = (a - b); break;
-      case '*': ans = (a * b); break;
-      case '/': ans = (a / b); break;
-      default: ans = `Undefined Operation: ${opChoice}`;
+      case '&times;': ans = (a * b); break;
+      case '&divide;': ans = (a / b); break;
+      default:
+        console.log(`Undefined Operation: ${opChoice}`);
+	throw new Error('Please choose a valid operation.');
     }
   } while ( !Number.isInteger(ans) || (!this.negativesAllowed && ans < 0) );
 
-  this.questionParts.push(a, this.ops[opChoice], b);
+  this.questionParts.push(
+    ((a < 0) ? '(' : ''), a, ((a < 0) ? ')' : ''),
+    this.ops[opChoice],
+    ((b < 0) ? '(' : ''), b, ((b < 0) ? ')' : ''),
+    );
   this.question = this.questionParts.join(' ');
   this.answer = ans;
-}
-
-ArithmeticProblem.prototype.approveProblem = function() {
 }

@@ -47,10 +47,28 @@ code {
 
 /** Problemset Styling */
 /** Controls */
+.problemset {
+}
+
 #controls {
 	border: 1px solid $color-dark-1;
 	padding: 1em;
 	margin-bottom: 1em;
+
+	.form-controls {
+		align-content: space-between;
+		.form-column {
+			display: inline-flex;
+			flex-flow: column wrap;
+			padding-right: 2em;
+			margin-bottom: 1em;
+		}
+
+		button {
+			display: block;
+		}
+	}
+
 	@media print {
 		display: none;
 	}
@@ -60,6 +78,8 @@ code {
 #problems {
 	display: flex;
 	flex-flow: row wrap;
+	justify-content: flex-start;
+	align-content: middle;
 	@media print {
 		justify-content: flex-start;
 	}
@@ -67,8 +87,6 @@ code {
 	.questionBlock {
 		border: 1px solid $color-dark-2;
 		padding: 0.3em;
-		flex-grow: 1;
-		flex-shrink: 1;
 		flex-basis: 15em;
 		min-height: 10em;
 		display: grid;
@@ -82,6 +100,7 @@ code {
 		@media print {
 			flex-basis: 10em;
 			border: none;
+			page-break-inside: avoid;
 		}
 
 		.questionNumber {
@@ -136,6 +155,7 @@ code {
 		flex-flow: row wrap;
 		font-size: 10pt;
 		justify-content: flex-start;
+		page-break-inside: avoid;
 
 		.solution {
 			flex-basis: 10em;

@@ -1,23 +1,28 @@
-<div id="controls" class="formControls">
-	<div class="flex-container">
-		<label for="additionCheck">Addition:</label>
-		<input type="checkbox" id="additionCheck">
-		<label for="subtractionCheck">Subtraction:</label>
-		<input type="checkbox" id="subtractionCheck">
-		<label for="multiplicationCheck">Multiplication:</label>
-		<input type="checkbox" id="multiplicationCheck">
-		<label for="divisionCheck">Division:</label>
-		<input type="checkbox" id="divisionCheck">
+	<div class="form-column">
+		<span class="controlSpan">
+		  <input type="checkbox" id="additionCheck" checked>
+		  <label for="additionCheck">Addition</label>
+		</span>
+		<span class="controlSpan">
+		  <input type="checkbox" id="subtractionCheck" checked>
+		  <label for="subtractionCheck">Subtraction</label>
+		</span>
+		<span class="controlSpan">
+		  <input type="checkbox" id="multiplicationCheck" checked>
+		  <label for="multiplicationCheck">Multiplication</label>
+		</span>
+		<span class="controlSpan">
+		  <input type="checkbox" id="divisionCheck" checked>
+		  <label for="divisionCheck">Division</label>
+		</span>
 	</div>
-	<div class="flex-container">
-	      <label for="negativesAllowed">Allow Negatives:</label>
-	      <input type="checkbox" id="negativesAllowed">
+	<div class="form-column">
+		<span class="controlSpan">
+		  <label for="maxMagnitude">Maximum term magnitute: </label>
+		  <input type="number" min="1" max="9999" value="10" step="1" id="maxMagnitude">
+		</span>
+		<span class="controlSpan">
+		  <input type="checkbox" id="negativesAllowed">
+		  <label for="negativesAllowed">Allow Negatives</label>
+		</span>
 	</div>
-	<div class="slidecontainer flex-container">
-	      <label for="maxMagnitude">Maximum term magnitute: <span id="maxMagnitudeValue">10</span></label>
-	      <input type="range" min="1" max="9999" value="10" class="slider" id="maxMagnitudeSlider">
-	</div>
-	<p>
-	      <button id="generateProblems">Generate</button>
-	</p>
-</div>
