@@ -57,14 +57,19 @@ code {
 	margin-bottom: 1em;
 
 	.form-controls {
+		display: flex;
+		flex-flow: row wrap;
 		align-content: space-between;
 		.form-column {
+			flex-grow: 1;
 			display: inline-flex;
 			flex-flow: column wrap;
 			padding-right: 2em;
 			margin-bottom: 1em;
 		}
-
+		.no-grow {
+			flex-grow: 0;
+		}
 		button {
 			display: block;
 		}
