@@ -55,6 +55,7 @@ header {
 nav {
 	display: none;
 	background-color: $color-contrast-1;
+	padding-bottom: 1em;
 	@media screen and (min-width: $break-points_tablet) {
 	        display: block;
 		width: 250px;
