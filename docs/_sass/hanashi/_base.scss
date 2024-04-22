@@ -46,7 +46,7 @@ p {
 	display: block;
 }
 .no-print {
-	#media print {
+	@media print {
 		display: none;
 	}
 }
