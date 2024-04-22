@@ -80,7 +80,6 @@ code {
 	display: flex;
 	flex-flow: row wrap;
 	justify-content: flex-start;
-	align-content: middle;
 	@media print {
 		justify-content: flex-start;
 	}
@@ -88,18 +87,15 @@ code {
 	.questionBlock {
 		border: 1px solid $color-dark-2;
 		padding: 0.3em;
-		flex-basis: max-content;
-		flex-grow: 1;
+		min-height: 5em;
 		display: grid;
 		grid-template-columns: 2em auto;
-		grid-template-rows: 80% 20%;
+		grid-template-rows: auto 1.8em;
 		justify-content: start;
-		align-content: start;
 		column-gap: 0;
 		row-gap: 0;
 
 		@media print {
-			flex-basis: 10em;
 			border: none;
 			min-height: 10em;
 			page-break-inside: avoid;
@@ -121,7 +117,7 @@ code {
 
 		.reveal {
 			align-self: end;
-			max-width: 12em;
+			width: 10em;
 			grid-column: 1 / span 2;
 			grid-row: 2 / span 1;
 			@media print {
@@ -131,7 +127,7 @@ code {
 
 		.solution {
 			font-size: 130%;
-			margin-left: 2em;
+			margin-left: 0.2em;
 			grid-column: 1 / span 2;
 			grid-row: 2 / span 1;
 			@media print {
@@ -142,10 +138,6 @@ code {
 			content: "= "
 		};
 	}
-
-	@media print {
-		border-bottom: 1px solid $color-dark-1;
-	}
 }
 
 /** Solutions */
@@ -153,20 +145,24 @@ code {
 	display: none;
 
 	@media print {
-		display: block;
 		display: flex;
 		flex-flow: row wrap;
 		font-size: 10pt;
-		line-height: 1.2em;
-		text-align: baseline;
-		justify-content: flex-start;
 		page-break-inside: avoid;
+		align-items: baseline;
+		border-top: 1px solid $color-dark-1;
+		padding-top: 0.2em;
 
-		.solution {
+		.solutionBlock {
+			justify-content: start;
+			display: block;
 			margin-right: 3em;
+			line-height: 1.6em;
+			white-space: nowrap;
 			.questionNumber {
-				display: inline-block;
 				width: 2em;
+			}
+			.solution {
 			}
 		}
 	}

@@ -16,6 +16,16 @@ function generateProblemSet(problemType) {
     const problemClass = getProblemClass(problemType)
     createProblems(problemClass);
     setShowBindings();
+    resizeBlocks(document.querySelectorAll('.questionBlock'));
+
+    window.addEventListener('beforeprint', function() {
+      document.getElementById('solutions').style.display = 'flex';
+      resizeBlocks(document.querySelectorAll('.questionBlock'));
+      resizeBlocks(document.querySelectorAll('.solutionBlock'));
+    });
+    window.addEventListener('afterprint', function() {
+      document.getElementById('solutions').style.display = 'none';
+    });
   } catch(e) {
      console.log(e);
      this.problemsDiv.innerHTML = '<strong>Error:</strong> ' + e.message;
@@ -32,10 +42,10 @@ function createProblems(problemClass) {
   const controls = Utils.getFormInputs('#controls');
 
   /* Loop through and create all problems */
-  let numQuestions = (controls['numProblems'] || 1);
+  let numProblems = (controls['numProblems'] || 1);
   if (numProblems > 99) { numProblems = 99; }
 
-  for (let i = 1; i <= numQuestions; i++) {
+  for (let i = 1; i <= numProblems; i++) {
     const problem = new problemClass(controls);
     problem.generate();
 
@@ -47,7 +57,7 @@ function createProblems(problemClass) {
     questions.push(`<button class="reveal" id="show${i}">Show Solution</button>`);
     questions.push('</div>');
 
-    solutions.push(`<div id="solution${i}" class="solution equation">`);
+    solutions.push(`<div id="solution${i}" class="solutionBlock">`);
     solutions.push(`<span class="questionNumber">${i}. </span>`);
     solutions.push(`<span id="answer${i}" class="solution equation">`);
     solutions.push(problem.getAnswer());
@@ -63,7 +73,7 @@ function createProblems(problemClass) {
 
 /* Bind each 'show answer' button to reveal the appropriate answer */
 function setShowBindings() {
-  let showButtons = document.querySelectorAll('button.reveal');
+  const showButtons = document.querySelectorAll('button.reveal');
   showButtons.forEach(function(button) {
     button.addEventListener('click', function() {
       var solutionId = this.id.replace('show', 'answer');
@@ -77,6 +87,30 @@ function setShowBindings() {
       }
     });
   });
+}
+
+/* Figure out maximum width among a set of elements, then set all others to match */
+function resizeBlocks(elements) {
+  // reset to auto to allow elements to adjust based on content
+  elements.forEach(function(block) {
+    block.style.width = 'auto';
+  });
+
+  document.body.offsetWidth; // trigger a reflow to update styles
+
+  // calculate maximum width for a question, and set all to match
+  let maxWidth = getMaxWidth(elements) * 1.1;
+  elements.forEach(function(block) {
+    block.style.width = maxWidth + 'px';
+  });
+}
+
+function getMaxWidth(elements) {
+  let maxWidth = 0;
+  elements.forEach(function(block) {
+    if (block.clientWidth > maxWidth) { maxWidth = block.clientWidth; }
+  });
+  return maxWidth;
 }
 
 /* Determine problem type (passed in from calling function) */
