@@ -153,16 +153,25 @@ function updateConstSliders() {
     maxSlider.value = max;
   }
 
-  document.getElementById("minConstValue").innerHTML = min;
-  document.getElementById("maxConstValue").innerHTML = max;
+  Utils.updateSliderValue(minSlider);
+  Utils.updateSliderValue(maxSlider);
 }
 
 window.addEventListener('load', function() {
+  const sliders = ['degree', 'coeff', 'minConst', 'maxConst'];
   try {
-    document.getElementById("degreeSlider").oninput = function() { document.getElementById("degreeValue").innerHTML = this.value; }
-    document.getElementById("coeffSlider").oninput = function() { document.getElementById("coeffValue").innerHTML = this.value; }
-    document.getElementById("minConstSlider").oninput = updateConstSliders;
-    document.getElementById("maxConstSlider").oninput = updateConstSliders;
+    for (let i = 0; i < sliders.length; i++ ) {
+      const sliderElement = document.getElementById(sliders[i] + 'Slider');
+      if (sliderElement) {
+	sliderElement.addEventListener('input', function() {
+	  if (sliders[i] == 'minConst' || sliders[i] == 'maxConst') {
+	    updateConstSliders();
+	  } else {
+	    Utils.updateSliderValue(sliderElement);
+	  }
+	});
+      }
+    }
   } catch(e) {
     console.log('polynomial.js:addEventListener error: ' + e.message);
   }
