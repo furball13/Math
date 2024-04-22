@@ -1,6 +1,7 @@
 /** Math Formatting */
 .equation {
 	font-family: $font-family_serif;
+	white-space: nowrap;
 }
 var {
 	font-family: $font-family_serif;
@@ -87,8 +88,8 @@ code {
 	.questionBlock {
 		border: 1px solid $color-dark-2;
 		padding: 0.3em;
-		flex-basis: 15em;
-		min-height: 10em;
+		flex-basis: max-content;
+		flex-grow: 1;
 		display: grid;
 		grid-template-columns: 2em auto;
 		grid-template-rows: 80% 20%;
@@ -100,6 +101,7 @@ code {
 		@media print {
 			flex-basis: 10em;
 			border: none;
+			min-height: 10em;
 			page-break-inside: avoid;
 		}
 
@@ -119,6 +121,7 @@ code {
 
 		.reveal {
 			align-self: end;
+			max-width: 12em;
 			grid-column: 1 / span 2;
 			grid-row: 2 / span 1;
 			@media print {
@@ -154,11 +157,13 @@ code {
 		display: flex;
 		flex-flow: row wrap;
 		font-size: 10pt;
+		line-height: 1.2em;
+		text-align: baseline;
 		justify-content: flex-start;
 		page-break-inside: avoid;
 
 		.solution {
-			flex-basis: 10em;
+			margin-right: 3em;
 			.questionNumber {
 				display: inline-block;
 				width: 2em;

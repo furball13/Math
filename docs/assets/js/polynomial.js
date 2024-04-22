@@ -5,39 +5,38 @@ import { Problem } from '/assets/js/problem.js';
 export class PolynomialProblem extends Problem {
   constructor(params) {
     super();
+    this.degree = parseInt(params.degreeSlider);
+    this.maxCoeff = parseInt(params.coeffSlider);
+    this.minConst = parseInt(params.minConstSlider);
+    this.maxConst = parseInt(params.maxConstSlider);
+    this.noGCF = params.noGCF;
+    this.factors = [];
+    this.gcf = 1;
+    this.question = '';
+    this.answer = '';
   }
 }
 
-function generate() {
-  const COEFF = 0, CONST = 1;
-  let factors = [];
-  let gcf = 1;
-
-  let degree = parseInt(document.getElementById("degreeSlider").value);
-  let maxCoeff = parseInt(document.getElementById("coeffSlider").value);
-  let minConst = parseInt(document.getElementById("minConstSlider").value);
-  let maxConst = parseInt(document.getElementById("maxConstSlider").value);
-  let noGCF = document.getElementById('noGCF').checked;
-
+PolynomialProblem.prototype.generate = function() {
   // randomly generate factors (ax + b)
   // factors are stored in 2d array - each entry is [a, b]
-  for (let i = 0; i < degree; i++) {
+  for (let i = 0; i < this.degree; i++) {
     let ce = 0;
     let cn = 0;
-    let factor = [];
+    let factor = {};
 
     do {
-      if (noGCF) {
-        gcf = 1;
+      if (this.noGCF) {
+        this.gcf = 1;
       }
       // randomize a coefficient for the factor (a in (ax + b))
       while (ce == 0) {
-	ce = Math.floor(Math.random() * maxCoeff + 1);
+	ce = Math.floor(Math.random() * this.maxCoeff + 1);
       }
 
       // randomize a constant for the factor (b in (ax + b))
       while (cn == 0) {
-	cn = Math.floor(Math.random() * (maxConst - minConst + 1)) + minConst;
+	cn = Math.floor(Math.random() * (this.maxConst - this.minConst + 1)) + this.minConst;
       }
 
       // check for common factors
@@ -45,27 +44,27 @@ function generate() {
 	if (ce % i == 0 && cn % i == 0) {
 	  ce /= i;
 	  cn /= i;
-	  gcf *= i;
+	  this.gcf *= i;
 	}
       }
-    } while (noGCF && gcf > 1);
+    } while (this.noGCF && this.gcf > 1);
 
-    factor.push(ce);
-    factor.push(cn);
-    factors.push(factor);
+    factor.coefficient = ce;
+    factor.constant = cn;
+    this.factors.push(factor);
   }
 
   // sort factors by smallest to largest root of the function (-b/a)
-  factors.sort(function(a,b) {
-    if (a[COEFF] === b[COEFF] && a[CONST] == b[CONST]) {
+  this.factors.sort(function(a,b) {
+    if (a.coefficient === b.coefficient && a.constant == b.constant) {
       return 0;
     } else {
-      return ((a[CONST]/a[COEFF]) > (b[CONST]/b[COEFF])) ? -1 : 1; // reverse order of ratios, since roots are additive inverses
+      return ((a.constant/a.coefficient) > (b.constant/b.coefficient)) ? -1 : 1; // reverse order of ratios, since roots are additive inverses
     }
   });
 
-  let cmap = Math.pow(2,degree); // bitmap for filtering factors for all combinations in multiplication
-  let polyCoeffs = Array(degree+1); // coefficients in the expanded polynomial (ax^2 + bx + c)
+  let cmap = Math.pow(2,this.degree); // bitmap for filtering factors for all combinations in multiplication
+  let polyCoeffs = Array(this.degree+1); // coefficients in the expanded polynomial (ax^2 + bx + c)
   polyCoeffs.fill(0); // initialize to 0
 
   // iterate through all combinations of the bitmap (eg. 000 through 111 for degree 3 polynomial)
@@ -78,12 +77,12 @@ function generate() {
     let idx = 0;
     // place is the degree of the variable that this product is a coefficient of - determined by the number of leading coefficients used (vs constants)
     // replacing 0 leaves a string of all 1s with the length of the number of constants used (const is 1, coeff is 0); subtract from degree of polynomial to find degree of term
-    let place = degree - i.toString(2).replace(/0/g,"").length;
+    let place = this.degree - i.toString(2).replace(/0/g,"").length;
 
     // loop through factors
-    while (idx < degree) {
-      let term = (bitmask & 1) ? COEFF : CONST; // bitmask determines if we use the coefficient or constant of this factor
-      prod *= factors[idx][term];
+    while (idx < this.degree) {
+      let term = (bitmask & 1) ? 'coefficient' : 'constant'; // bitmask determines if we use the coefficient or constant of this factor
+      prod *= this.factors[idx][term];
       bitmask >>= 1;  // shift one bit over for the next factor
       idx++;
     }
@@ -93,56 +92,52 @@ function generate() {
   }
 
   // multiply gcf back in to expanded polynomial
-  if (gcf > 1) {
+  if (this.gcf > 1) {
     for (let place = 0; place < polyCoeffs.length; place++) {
-      polyCoeffs[place] *= gcf;
+      polyCoeffs[place] *= this.gcf;
     }
   }
 
   // build the polynomial/display
-  let polynomial = "<p id=\"polynomial\">";
-  for (let i = 0; i <= degree; i++) {
+  let polynomial = '';
+  for (let i = 0; i <= this.degree; i++) {
     if (polyCoeffs[i] != 0) {
       polynomial += (polyCoeffs[i] < 0) ? " &minus; " : (i != 0) ? " + " : ""; // negative sign or plus, but not on leading term
-      polynomial += (Math.abs(polyCoeffs[i]) != 1 || i == degree) ? Math.abs(polyCoeffs[i]) : ""; // omit coefficient of 1, but not on last (constant) term
-      polynomial += (i < degree) ? "<var>x</var>" : ""; // add the variable (except on final term)
-      polynomial += (degree - i > 1) ? "<sup>" + (degree - i) + "</sup>" : ""; // add the exponent if necessary
+      polynomial += (Math.abs(polyCoeffs[i]) != 1 || i == this.degree) ? Math.abs(polyCoeffs[i]) : ""; // omit coefficient of 1, but not on last (constant) term
+      polynomial += (i < this.degree) ? "<var>x</var>" : ""; // add the variable (except on final term)
+      polynomial += (this.degree - i > 1) ? "<sup>" + (this.degree - i) + "</sup>" : ""; // add the exponent if necessary
     }
   }
 
   // build the solution/display
-  let solution = "<p>";
+  let solution = '';
   let factorDegree = 1; // track repeated factors
-  if (gcf > 1) {
-    solution += gcf; // lead with factored-out gcf
+  if (this.gcf > 1) {
+    solution += this.gcf; // lead with factored-out gcf
   }
-  for (let fc = 0; fc < degree; fc++) {
-    if ( fc > 0 && factors[fc][COEFF] == factors[fc-1][COEFF] && factors[fc][CONST] == factors[fc-1][CONST]) {
+  for (let fc = 0; fc < this.degree; fc++) {
+    if ( fc > 0 && this.factors[fc].coefficient == this.factors[fc-1].coefficient && this.factors[fc].constant == this.factors[fc-1].constant) {
       // factor matches previous factor, so just keep track of how many repetitions
       factorDegree++;
     } else {
       solution += (factorDegree > 1) ? "<sup>" + factorDegree + "</sup>": ""; // check if previous factor needs an exponent before starting the new one
       solution += "("; // open factor
-      solution += (Math.abs(factors[fc][COEFF]) > 1) ? Math.abs(factors[fc][COEFF]) : ""; // coefficients should always be positive (factoring out multiples of -1 from a polynomial is not covered here)
+      solution += (Math.abs(this.factors[fc].coefficient) > 1) ? Math.abs(this.factors[fc].coefficient) : ""; // coefficients should always be positive (factoring out multiples of -1 from a polynomial is not covered here)
       solution += "<var>x</var>";
-      solution += (factors[fc][CONST] < 0) ? " &minus; " : (factors[fc][CONST] != 0) ? " + " : ""; // + or - based on sign of constant; check for 0, but shouldn't be allowed anyway (no (x) term)
-      solution += (factors[fc][CONST] != 0) ? Math.abs(factors[fc][CONST]) : ""; // print the constant term; again, 0 shouldn't be allowed
+      solution += (this.factors[fc].constant < 0) ? " &minus; " : (this.factors[fc].constant != 0) ? " + " : ""; // + or - based on sign of constant; check for 0, but shouldn't be allowed anyway (no (x) term)
+      solution += (this.factors[fc].constant != 0) ? Math.abs(this.factors[fc].constant) : ""; // print the constant term; again, 0 shouldn't be allowed
       solution += ")"; // close factor
       factorDegree = 1; // reset, since this was a new factor
     }
   }
-  solution += (factorDegree > 1) ? "<sup>" + factorDegree + "</sup>": "";
+  solution += (factorDegree > 1) ? "<sup>" + factorDegree + "</sup>": ""; // degree of final factor
 
-  document.getElementById("result").innerHTML = polynomial + "</p><p><button onclick=\"showSolution()\">Show Solution</button></p>";
-  document.getElementById("solution").style.display = "none";
-  document.getElementById("solution").innerHTML = solution;
+  this.question = polynomial;
+  this.answer = solution;
 }
 
-function showSolution()
-{
-	document.getElementById("solution").style.display = "block";
-}
 
+/* Page-specific control handlers */
 function updateConstSliders() {
   let minSlider = document.getElementById("minConstSlider");
   let maxSlider = document.getElementById("maxConstSlider");
@@ -163,8 +158,12 @@ function updateConstSliders() {
 }
 
 window.addEventListener('load', function() {
-  document.getElementById("degreeSlider").oninput = function() { document.getElementById("degreeValue").innerHTML = this.value; }
-  document.getElementById("coeffSlider").oninput = function() { document.getElementById("coeffValue").innerHTML = this.value; }
-  document.getElementById("minConstSlider").oninput = updateConstSliders;
-  document.getElementById("maxConstSlider").oninput = updateConstSliders;
+  try {
+    document.getElementById("degreeSlider").oninput = function() { document.getElementById("degreeValue").innerHTML = this.value; }
+    document.getElementById("coeffSlider").oninput = function() { document.getElementById("coeffValue").innerHTML = this.value; }
+    document.getElementById("minConstSlider").oninput = updateConstSliders;
+    document.getElementById("maxConstSlider").oninput = updateConstSliders;
+  } catch(e) {
+    console.log('polynomial.js:addEventListener error: ' + e.message);
+  }
 });
