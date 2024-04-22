@@ -1,10 +1,13 @@
-/*
 import { Utils } from '/assets/js/utils.js';
-import { Problem } from '/assets/js/problemset.js';
-import { ProblemSet } from '/assets/js/problemset.js';
-*/
+import { Problem } from '/assets/js/problem.js';
 
 /** Generate a factorable polynomial - returns { question, solution } */
+export class PolynomialProblem extends Problem {
+  constructor(params) {
+    super();
+  }
+}
+
 function generate() {
   const COEFF = 0, CONST = 1;
   let factors = [];

@@ -1,14 +1,6 @@
 import { Utils } from '/assets/js/utils.js';
-import { Problem } from '/assets/js/problemset.js';
-import { ProblemSet } from '/assets/js/problemset.js';
+import { Problem } from '/assets/js/problem.js';
 
-window.addEventListener('load', function() {
-  /* Add event listeners */
-  document.getElementById('generateProblems').addEventListener('click', function() {
-    const problems = new ProblemSet('arithmetic');
-  });
-});
-  
 export class ArithmeticProblem extends Problem {
   constructor(params) {
     super();
@@ -21,7 +13,6 @@ export class ArithmeticProblem extends Problem {
     if (params.subtractionCheck) { this.ops.push('-'); }
     if (params.multiplicationCheck) { this.ops.push('&times;'); }
     if (params.divisionCheck) { this.ops.push('&divide;'); }
-
   }
 }
 
