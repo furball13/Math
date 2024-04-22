@@ -1,7 +1,6 @@
 /** Math Formatting */
 .equation {
 	font-family: $font-family_serif;
-	white-space: nowrap;
 }
 var {
 	font-family: $font-family_serif;
@@ -96,13 +95,14 @@ code {
 		display: grid;
 		grid-template-columns: 2em auto;
 		grid-template-rows: auto 1.8em;
+		grid-template-rows: auto auto;
 		justify-content: start;
 		column-gap: 0;
 		row-gap: 0;
 
 		@media print {
 			border: none;
-			min-height: 10em;
+			min-height: 8em;
 			page-break-inside: avoid;
 		}
 
