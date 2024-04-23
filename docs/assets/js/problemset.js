@@ -42,7 +42,12 @@ function createProblems(problemClass) {
 
   /* Loop through and create all problems */
   let numProblems = (controls['numProblems'] || 1);
-  if (numProblems > 99) { numProblems = 99; }
+  if (numProblems > 99) {
+    numProblems = 99;
+  }
+  if (numProblems < 1) {
+    numProblems = 1;
+  }
 
   for (let i = 1; i <= numProblems; i++) {
     const problem = new problemClass(controls);
