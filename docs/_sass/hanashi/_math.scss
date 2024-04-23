@@ -167,4 +167,9 @@ code {
 		.solution {
 		}
 	}
+	@media print {
+		transform: rotate(180deg);
+		border-top: none;
+		border-bottom: 1px solid $color-dark-1;
+	}
 }
