@@ -86,6 +86,10 @@ header {
 		left: 0;
 		right: 0;
 	}
+	@media print {
+		background: $color-light-1;
+		color: $color-dark-1;
+	}
 	button.hamburger {
 		display: block;
 		background: none;
@@ -163,9 +167,7 @@ footer {
 	@media print {
 		border: none;
 		font-size: 9pt;
-		.creds {
-			display: none;
-		}
+		display: none;
 	}
 }
 
