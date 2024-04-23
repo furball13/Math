@@ -7,8 +7,12 @@ window.addEventListener('load', function() {
   const problemType = generateButton.getAttribute('data-problem-type');
 
   generateButton.addEventListener('click', function() {
+    const toggleAllButton = document.getElementById('toggleAllSolutions');
+    toggleAllButton.style.display = 'inline-block';
     generateProblemSet(problemType);
   });
+
+  bindToggleAllSolutions();
 });
 
 function generateProblemSet(problemType) {
@@ -18,14 +22,9 @@ function generateProblemSet(problemType) {
     setShowBindings();
     resizeBlocks(document.querySelectorAll('.questionBlock'));
 
-    window.addEventListener('beforeprint', function() {
-      document.getElementById('solutions').style.display = 'flex';
-      resizeBlocks(document.querySelectorAll('.questionBlock'));
-      resizeBlocks(document.querySelectorAll('.solutionBlock'));
-    });
-    window.addEventListener('afterprint', function() {
-      document.getElementById('solutions').style.display = 'none';
-    });
+    // hide solutions and reset 'show all' button
+    document.getElementById('solutions').style.display = 'none';
+    document.getElementById('toggleAllSolutions').innerHTML = 'Show All Solutions';
   } catch(e) {
      console.log(e);
      this.problemsDiv.innerHTML = '<strong>Error:</strong> ' + e.message;
@@ -69,6 +68,29 @@ function createProblems(problemClass) {
   /* Add the problems and solutions to the page */
   problemsDiv.innerHTML = questions.join('');
   solutionsDiv.innerHTML = solutions.join('');
+}
+
+/* Bind the button to toggle visibility of the lower solutions div */
+function bindToggleAllSolutions() {
+  const toggleAllButton = document.getElementById('toggleAllSolutions');
+  const solutionsDiv = document.getElementById('solutions');
+
+  if (toggleAllButton && solutionsDiv) {
+    toggleAllButton.addEventListener('click', function() {
+      if (!solutionsDiv.style.display || solutionsDiv.style.display == 'none') {
+	solutionsDiv.style.display = 'flex';
+	resizeBlocks(document.querySelectorAll('.solutionBlock'));
+	toggleAllButton.innerHTML = 'Hide All Solutions';
+      } else {
+	solutionsDiv.style.display = 'none';
+	toggleAllButton.innerHTML = 'Show All Solutions';
+      }
+    });
+  } else {
+    console.log('bindToggleAllSolutions: element not found.');
+    console.log('bindToggleAllSolutions: toggleAllButton: ' + toggleAllButton);
+    console.log('bindToggleAllSolutions: solutionsDiv: ' + solutionsDiv);
+  }
 }
 
 /* Bind each 'show answer' button to reveal the appropriate answer */

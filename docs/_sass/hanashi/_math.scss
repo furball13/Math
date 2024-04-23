@@ -69,9 +69,10 @@ code {
 		.no-grow {
 			flex-grow: 0;
 		}
-		button {
-			display: block;
-		}
+	}
+	button {
+		display: inline-block;
+		margin-right: 1em;
 	}
 
 	@media print {
@@ -147,28 +148,23 @@ code {
 
 /** Solutions */
 #solutions {
-	display: none;
+	flex-flow: row wrap;
+	font-size: 10pt;
+	page-break-inside: avoid;
+	align-items: baseline;
+	border-top: 1px solid $color-dark-1;
+	padding-top: 0.2em;
 
-	@media print {
-		display: flex;
-		flex-flow: row wrap;
-		font-size: 10pt;
-		page-break-inside: avoid;
-		align-items: baseline;
-		border-top: 1px solid $color-dark-1;
-		padding-top: 0.2em;
-
-		.solutionBlock {
-			justify-content: start;
-			display: block;
-			margin-right: 3em;
-			line-height: 1.6em;
-			white-space: nowrap;
-			.questionNumber {
-				width: 2em;
-			}
-			.solution {
-			}
+	.solutionBlock {
+		justify-content: start;
+		display: block;
+		margin-right: 3em;
+		line-height: 1.6em;
+		white-space: nowrap;
+		.questionNumber {
+			width: 2em;
+		}
+		.solution {
 		}
 	}
 }
