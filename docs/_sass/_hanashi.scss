@@ -7,8 +7,8 @@ $color-dark-1: #523604 !default;
 $color-dark-2: #c08521 !default;
 $color-contrast-1: #f8c260 !default;
 $color-contrast-2: #edc38d !default;
-$color_link: #00796c !default;
-$color_link_active: #00473d !default;
+$color-link: #00796c !default;
+$color-link-active: #00473d !default;
 
 $font-family_sans: "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif !default;
 $font-family_serif: Georgia, serif !default;
@@ -54,3 +54,15 @@ $on-laptop:        800px !default;
   "hanashi/math",
   "hanashi/syntax-highlighting"
 ;
+
+#color-swatches {
+	display: flex;
+	flex-flow: row wrap;
+	margin-bottom: 2em;
+
+	div {
+		height: 50px;
+		width: 50px;
+		border: 1px solid black;
+	}
+}

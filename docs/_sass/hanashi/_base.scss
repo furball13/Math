@@ -150,13 +150,13 @@ li {
 
 /** Links */
 a {
-	color: $color_link;
+	color: $color-link;
 	text-decoration: none;
 	&:visited {
-		color: $color_link;
+		color: $color-link;
 	}
 	&:hover {
-		color: $color_link_active;
+		color: $color-link-active;
 		text-decoration: underline;
 	}
 }
