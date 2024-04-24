@@ -10,8 +10,9 @@ $color-contrast-2: #edc38d !default;
 $color-link: #00796c !default;
 $color-link-active: #00473d !default;
 
-$font-family_sans: "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif !default;
-$font-family_serif: Georgia, serif !default;
+$font-family-sans: "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif !default;
+$font-family-serif: 'Cambria Math', 'Times New Roman', serif !default;
+$font-family-variable: Georgia, serif !default;
 $base-font-size: 16px !default;
 $small-font-size: $base-font-size * 0.875 !default;
 $base-line-height: 1.5 !default;
