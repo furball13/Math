@@ -5,7 +5,8 @@ export class ArithmeticProblem extends Problem {
   constructor(params) {
     super();
     this.negativesAllowed = params.negativesAllowed;
-    this.maxMagnitude = parseInt(params.maxMagnitude);
+    this.oneMagnitude = parseInt(params.oneMagnitude);
+    this.twoMagnitude = parseInt(params.twoMagnitude);
     this.ops = [];
     this.questionParts = [];
 
@@ -18,12 +19,14 @@ export class ArithmeticProblem extends Problem {
 
 ArithmeticProblem.prototype.generate = function() {
   let a = 0, b = 0, opChoice = 0, ans = 0;
-  const min = this.negativesAllowed ? 0 - this.maxMagnitude : 0;
-  const max = this.maxMagnitude;
+  const oneMin = this.negativesAllowed ? 0 - this.oneMagnitude : 0;
+  const oneMax = this.oneMagnitude;
+  const twoMin = this.negativesAllowed ? 0 - this.twoMagnitude : 0;
+  const twoMax = this.twoMagnitude;
 
   do {
-    a = Utils.randomIntegerInRange(min, max);
-    b = Utils.randomIntegerInRange(min, max);
+    a = Utils.randomIntegerInRange(oneMin, oneMax);
+    b = Utils.randomIntegerInRange(twoMin, twoMax);
 
     opChoice = Math.floor(Math.random() * this.ops.length);
 

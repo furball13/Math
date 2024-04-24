@@ -1,4 +1,4 @@
-	<div class="form-column">
+	<div class="form-column no-grow">
 		<span class="controlSpan">
 		  <input type="checkbox" id="additionCheck" checked>
 		  <label for="additionCheck">Addition</label>
@@ -17,10 +17,15 @@
 		</span>
 	</div>
 	<div class="form-column">
-		<span class="controlSpan">
-		  <label for="maxMagnitude">Maximum term magnitute: </label>
-		  <input type="number" min="1" max="9999" value="10" step="1" id="maxMagnitude">
-		</span>
+		<p>Maximum magnitude: </p>
+		<p class="controlSpan">
+		  <label for="oneMagnitude">First term: </label>
+		  <input type="number" min="1" max="99999" value="10" step="1" id="oneMagnitude">
+		</p>
+		<p class="controlSpan">
+		  <label for="twoMagnitude">Second term: </label>
+		  <input type="number" min="1" max="99999" value="10" step="1" id="twoMagnitude">
+		</p>
 		<span class="controlSpan">
 		  <input type="checkbox" id="negativesAllowed">
 		  <label for="negativesAllowed">Allow Negatives</label>
