@@ -7,9 +7,28 @@
 			<label for="maxCoeff">Maximum coefficient size: <span id="coeffValue">1</span></label>
 			<input type="range" min="1" max="9" value="1" class="slider" id="coeffSlider">
 		</div>
-		<div class="flex-container">
+		<!--div class="flex-container">
 		      <label for="noGCF">Disallow GCF</label>
 		      <input type="checkbox" id="noGCF">
+		</div-->
+		<div class="flex-container">
+		      <div class="form-column no-grow">
+		        <label for="gcfSelect">GCF</label>
+			<select id="gcfSelect">
+				<option value="maybeGCF">Optional</option>
+				<option value="noGCF">Never</option>
+			 	<option value="forceGCF">Always</option>
+			</select>
+		      </div>
+		      <div class="form-column no-grow" id="quadPatternsDiv">
+		        <label for="quadPatterns">Quadratic Patterns</label>
+			<select id="quadPatterns">
+				<option value="random">Random</option>
+				<option value="perfectSquares">Perfect Square</option>
+			 	<option value="diffSquares">Difference of Squares</option>
+			 	<option value="uniqueFactors">Unique Factors</option>
+			</select>
+		      </div>
 		</div>
 		<div class="slidecontainer flex-container">
 		      <label for="minConst">Minimum constant size: <span id="minConstValue">-4</span></label>
