@@ -9,17 +9,31 @@ export class PolynomialProblem extends Problem {
     this.maxCoeff = parseInt(params.coeffSlider);
     this.minConst = parseInt(params.minConstSlider);
     this.maxConst = parseInt(params.maxConstSlider);
-    this.noGCF = params.noGCF;
+    this.gcfSelect = params.gcfSelect;
+    this.quadPatternSelect = params.quadPatternSelect;
     this.factors = [];
     this.gcf = 1;
     this.question = '';
     this.answer = '';
+
+    this.noGCF = this.gcfSelect == 'noGCF' || this.maxCoeff == 1;
+    this.forceGCF = this.gcfSelect == 'forceGCF' && this.maxCoeff > 1 && (Math.abs(this.minConst) > 1 || Math.abs(this.maxConst) > 1);
+
+    this.quadUnique = this.degree == 2 && this.quadPatternSelect == 'uniqueFactors'
+                        && ( (Math.abs(this.maxConst) - Math.abs(this.minConst) != 0)
+			  || (this.maxConst - this.minConst > 2)
+			);
   }
 }
 
 PolynomialProblem.prototype.generate = function() {
-  // randomly generate factors (ax + b)
-  // factors are stored in 2d array - each entry is [a, b]
+  this.generateFactors();
+  this.calculateCoefficients();
+  this.buildDisplay();
+}
+
+PolynomialProblem.prototype.generateFactors = function() {
+  // randomly generate factors (ax + b), stored as { coefficient: a, constant: b }
   for (let i = 0; i < this.degree; i++) {
     let ce = 0;
     let cn = 0;
@@ -29,29 +43,43 @@ PolynomialProblem.prototype.generate = function() {
       if (this.noGCF) {
         this.gcf = 1;
       }
+
       // randomize a coefficient for the factor (a in (ax + b))
-      while (ce == 0) {
+      do {
 	ce = Math.floor(Math.random() * this.maxCoeff + 1);
-      }
+      } while (ce == 0);
 
       // randomize a constant for the factor (b in (ax + b))
-      while (cn == 0) {
+      do {
 	cn = Math.floor(Math.random() * (this.maxConst - this.minConst + 1)) + this.minConst;
-      }
+      } while (cn == 0);
 
       // check for common factors
-      for (let i = Math.min(Math.abs(ce), Math.abs(cn)); i > 0; i--) {
-	if (ce % i == 0 && cn % i == 0) {
-	  ce /= i;
-	  cn /= i;
-	  this.gcf *= i;
+      for (let d = Math.min(Math.abs(ce), Math.abs(cn)); d > 1; d--) {
+	if (ce % d == 0 && cn % d == 0) {
+	  ce /= d;
+	  cn /= d;
+	  this.gcf *= d;
 	}
       }
-    } while (this.noGCF && this.gcf > 1);
+    } while ((this.noGCF && this.gcf > 1)
+	  || (this.forceGCF && this.gcf == 1)
+	  || (this.quadUnique && i == 1 && ce == this.factors[0].coefficient && cn == this.factors[0].constant)
+	  || (this.quadUnique && i == 1 && ce == this.factors[0].coefficient && cn == -this.factors[0].constant)
+	  );
 
     factor.coefficient = ce;
     factor.constant = cn;
     this.factors.push(factor);
+
+    if (this.quadPatternSelect == 'perfectSquare' || this.quadPatternSelect == 'diffSquares') {
+	factor = {
+	  coefficient: factor.coefficient,
+	  constant: (this.quadPatternSelect == 'diffSquares' ? -factor.constant : factor.constant)
+	}
+        i++;
+	this.factors.push(factor);
+    }
   }
 
   // sort factors by smallest to largest root of the function (-b/a)
@@ -62,10 +90,12 @@ PolynomialProblem.prototype.generate = function() {
       return ((a.constant/a.coefficient) > (b.constant/b.coefficient)) ? -1 : 1; // reverse order of ratios, since roots are additive inverses
     }
   });
+}
 
+PolynomialProblem.prototype.calculateCoefficients = function() {
   let cmap = Math.pow(2,this.degree); // bitmap for filtering factors for all combinations in multiplication
-  let polyCoeffs = Array(this.degree+1); // coefficients in the expanded polynomial (ax^2 + bx + c)
-  polyCoeffs.fill(0); // initialize to 0
+  this.polyCoeffs = Array(this.degree+1); // coefficients in the expanded polynomial (ax^2 + bx + c)
+  this.polyCoeffs.fill(0); // initialize to 0
 
   // iterate through all combinations of the bitmap (eg. 000 through 111 for degree 3 polynomial)
   // 000 will multiply all 3 leading coefficients;
@@ -88,22 +118,24 @@ PolynomialProblem.prototype.generate = function() {
     }
 
     // coefficient of each place is the sum of all combinations
-    polyCoeffs[place] = polyCoeffs[place] + prod;
+    this.polyCoeffs[place] = this.polyCoeffs[place] + prod;
   }
 
   // multiply gcf back in to expanded polynomial
   if (this.gcf > 1) {
-    for (let place = 0; place < polyCoeffs.length; place++) {
-      polyCoeffs[place] *= this.gcf;
+    for (let place = 0; place < this.polyCoeffs.length; place++) {
+      this.polyCoeffs[place] *= this.gcf;
     }
   }
+}
 
+PolynomialProblem.prototype.buildDisplay = function() {
   // build the polynomial/display
   let polynomial = '';
   for (let i = 0; i <= this.degree; i++) {
-    if (polyCoeffs[i] != 0) {
-      polynomial += (polyCoeffs[i] < 0) ? " &minus; " : (i != 0) ? " + " : ""; // negative sign or plus, but not on leading term
-      polynomial += (Math.abs(polyCoeffs[i]) != 1 || i == this.degree) ? Math.abs(polyCoeffs[i]) : ""; // omit coefficient of 1, but not on last (constant) term
+    if (this.polyCoeffs[i] != 0) {
+      polynomial += (this.polyCoeffs[i] < 0) ? " &minus; " : (i != 0) ? " + " : ""; // negative sign or plus, but not on leading term
+      polynomial += (Math.abs(this.polyCoeffs[i]) != 1 || i == this.degree) ? Math.abs(this.polyCoeffs[i]) : ""; // omit coefficient of 1, but not on last (constant) term
       polynomial += (i < this.degree) ? "<var>x</var>" : ""; // add the variable (except on final term)
       polynomial += (this.degree - i > 1) ? "<sup>" + (this.degree - i) + "</sup>" : ""; // add the exponent if necessary
     }
@@ -144,6 +176,14 @@ function updateConstSliders() {
   let min = parseInt(minSlider.value);
   let max = parseInt(maxSlider.value);
 
+  if (max == 0) {
+    max = maxSlider.value = 1;
+  }
+  
+  if (min == 0) {
+    min = minSlider.value = -1;
+  }
+
   // make sure min is actually smaller
   if (min > max) {
     let tmp = max;
@@ -157,7 +197,19 @@ function updateConstSliders() {
   Utils.updateSliderValue(maxSlider);
 }
 
+function showHideQuadOptions() {
+  let degree = parseInt(document.getElementById("degreeSlider").value);
+
+  // only show quadratic options when degree is 2
+  if (degree == 2) {
+    document.getElementById("quadPatternsDiv").style.display = '';
+  } else {
+    document.getElementById("quadPatternsDiv").style.display = 'none';
+  }
+}
+
 window.addEventListener('load', function() {
+  // Add Listeners for slider value displays
   const sliders = ['degree', 'coeff', 'minConst', 'maxConst'];
   try {
     for (let i = 0; i < sliders.length; i++ ) {
@@ -168,6 +220,9 @@ window.addEventListener('load', function() {
 	    updateConstSliders();
 	  } else {
 	    Utils.updateSliderValue(sliderElement);
+	    if (sliders[i] == 'degree') {
+	      showHideQuadOptions();
+	    }
 	  }
 	});
       }
