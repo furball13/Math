@@ -2,9 +2,9 @@ export class Utils {
   static getFormInputs(selector, allInputs = true) {
     /* Get form controls from page */
     const controls = {};
-    if (allInputs) { selector += ' input'; }
+    if (allInputs) { selector += ' input,select'; }
     document.querySelectorAll(selector).forEach(function(field) {
-      if (field.tagName.toLowerCase() !== 'input') {
+      if (field.tagName.toLowerCase() !== 'input' && field.tagName.toLowerCase() !== 'select') {
         return; // Skip non-input elements
       }
     
