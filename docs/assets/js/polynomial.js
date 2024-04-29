@@ -72,7 +72,7 @@ PolynomialProblem.prototype.generateFactors = function() {
     factor.constant = cn;
     this.factors.push(factor);
 
-    if (this.quadPatternSelect == 'perfectSquare' || this.quadPatternSelect == 'diffSquares') {
+    if (this.quadPatternSelect == 'perfectSquares' || this.quadPatternSelect == 'diffSquares') {
 	factor = {
 	  coefficient: factor.coefficient,
 	  constant: (this.quadPatternSelect == 'diffSquares' ? -factor.constant : factor.constant)
