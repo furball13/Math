@@ -1,7 +1,12 @@
 window.addEventListener('load', function() {
-  const navToggle = document.querySelector("#navToggle");
-  const navBar = document.querySelector("nav");
-  navToggle.onclick = function() {
-    navBar.classList.toggle('visible');
+  const navButton = document.getElementById('navToggle');
+  const navBlock = document.querySelector('nav');
+
+  if (navButton.clientWidth > 0) {
+    navBlock.classList.add('hidden');
   }
+
+  navButton.addEventListener('click', function() {
+    navBlock.classList.toggle('hidden');
+  });
 });
