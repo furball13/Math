@@ -1,6 +1,7 @@
 import { Utils } from '/assets/js/utils.js';
 import { ArithmeticProblem } from '/assets/js/arithmetic.js';
 import { PolynomialProblem } from '/assets/js/polynomial.js';
+import { FractionProblem } from '/assets/js/fractions.js';
 
 window.addEventListener('load', function() {
   const generateButton = document.getElementById('generateProblems');
@@ -27,7 +28,7 @@ function generateProblemSet(problemType) {
     document.getElementById('toggleAllSolutions').innerHTML = 'Show All Solutions';
   } catch(e) {
      console.log(e);
-     this.problemsDiv.innerHTML = '<strong>Error:</strong> ' + e.message;
+     document.getElementById('problems').innerHTML = '<strong>Error:</strong> ' + e.message;
   }
 }
 
@@ -145,6 +146,7 @@ function getProblemClass(problemType) {
   const problemClasses = {
     "arithmetic": ArithmeticProblem,
     "polynomial": PolynomialProblem,
+    "fractions": FractionProblem,
   }
 
   const problemClass = problemClasses[problemType];
