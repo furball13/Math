@@ -49,8 +49,8 @@ function createProblems(problemClass) {
     numProblems = 1;
   }
 
+  const problem = new problemClass(controls);
   for (let i = 1; i <= numProblems; i++) {
-    const problem = new problemClass(controls);
     problem.generate();
 
     questions.push(`<div id="problem${i}" class="problem questionBlock">`);

@@ -27,6 +27,12 @@ export class PolynomialProblem extends Problem {
 }
 
 PolynomialProblem.prototype.generate = function() {
+  // reset
+  this.gcf = 1;
+  this.factors = [];
+  this.question = '';
+  this.answer = '';
+
   this.generateFactors();
   this.calculateCoefficients();
   this.buildDisplay();
