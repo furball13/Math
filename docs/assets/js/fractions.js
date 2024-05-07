@@ -5,17 +5,22 @@ import { MixedNumber } from '/assets/js/mixednumber.js';
 export class FractionProblem extends Problem {
   constructor(params) {
     super();
+
+    // store parameters
     this.negativesAllowed = params.negativesAllowed;
     this.maxDenominator = parseInt(params.maxDenominatorSlider);
     this.mixedNumbers = params.mixedNumbers;
     this.commonDenominator = params.commonDenominator;
     this.regroupingRequired = params.regroupingRequired;
     this.simplifyAnswer = params.simplifyAnswer;
+
+    // initialize internal values
     this.ops = [];
     this.firstTerm = new MixedNumber();
     this.secondTerm = new MixedNumber();
     this.solution = new MixedNumber();
 
+    // set up requested operations
     if (params.additionCheck) { this.ops.push('+'); }
     if (params.subtractionCheck) { this.ops.push('-'); }
     if (params.multiplicationCheck) { this.ops.push('&times;'); }
@@ -32,41 +37,34 @@ FractionProblem.prototype.generate = function() {
 
 /** Generate a single fraction or mixed number within the parameters */
 FractionProblem.prototype.generateFirstTerm = function() {
+  let whole = 0, num = 1, denom = 2;
+
   if (this.mixedNumbers != 'never') {
     do {
-      this.firstTerm.whole = Math.floor(Math.random() * 10);
-    } while (this.mixedNumbers == 'always' && this.firstTerm.whole == 0);
+      whole = Math.floor(Math.random() * 10);
+    } while (this.mixedNumbers == 'always' && whole == 0);
   }
 
-  this.firstTerm.denom = Math.floor(Math.random() * (this.maxDenominator - 1) + 2);
+  denom = Math.floor(Math.random() * (this.maxDenominator - 1) + 2);
 
-  let gcf = 1;
-  do {
-    gcf = 1;
-    this.firstTerm.num = Math.floor(Math.random() * (this.firstTerm.denom - 1) + 1);
-
-    // make sure generated fractions are fully reduced
-    for (let i = this.firstTerm.num; i > 1; i--) {
-      if (this.firstTerm.num % i == 0 && this.firstTerm.denom % i == 0) {
-	gcf = i;
-      }
-    }
-  } while (gcf > 1);
+  this.firstTerm = new MixedNumber(whole, num, denom);
+  this.firstTerm.reduce();
 }
 
 /** Generate a second fraction within the parameters, that also gives an answer within parameters */
 FractionProblem.prototype.generateSecondTerm = function() {
+  let whole = 0, num = 1, denom = 2;
   let opChoice = 0;
 
   if (this.mixedNumbers != 'never') {
     do {
-      this.secondTerm.whole = Math.floor(Math.random() * 10); 
-    } while (this.mixedNumbers == 'always' && this.secondTerm.whole == 0);
+      whole = Math.floor(Math.random() * 10); 
+    } while (this.mixedNumbers == 'always' && whole == 0);
   }
 
   do {
-    this.secondTerm.denom = (this.commonDenominator == 'always') ? this.firstTerm.denom : Math.floor(Math.random * (this.maxDenominator - 1) + 2);
-  } while (this.commonDenominator == 'never' && this.secondTerm.denom == this.firstTerm.denom);
+    denom = (this.commonDenominator == 'always') ? this.firstTerm.getDenominator : Math.floor(Math.random * (this.maxDenominator - 1) + 2);
+  } while (this.commonDenominator == 'never' && denom == this.firstTerm.getDenominator);
 
   let gcf = 1;
 
