@@ -55,14 +55,10 @@ PolynomialProblem.prototype.generateFactors = function() {
       } while (cn == 0);
 
       // check for common factors
-      for (let d = Math.min(Math.abs(ce), Math.abs(cn)); d > 1; d--) {
-	if (ce % d == 0 && cn % d == 0) {
-	  ce /= d;
-	  cn /= d;
-	  this.gcf *= d;
-	}
-      }
-    } while ((this.noGCF && this.gcf > 1)
+      let d; // store the gcf to multiply into this.gcf
+      [ce, cn, d] = Utils.reduce(ce, cn);
+      this.gcf *= d;
+      } while ((this.noGCF && this.gcf > 1)
 	  || (this.forceGCF && this.gcf == 1)
 	  || (this.quadUnique && i == 1 && ce == this.factors[0].coefficient && cn == this.factors[0].constant)
 	  || (this.quadUnique && i == 1 && ce == this.factors[0].coefficient && cn == -this.factors[0].constant)

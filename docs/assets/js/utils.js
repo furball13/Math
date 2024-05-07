@@ -37,6 +37,18 @@ export class Utils {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
+  static reduce = function(a, b) {
+    const gcf = Utils.calculateGCF(Math.abs(a), Math.abs(b));
+    return [a/gcf, b/gcf, gcf];
+  }
+
+  static calculateGCF(a, b) {
+    if (b === 0) {
+      return a;
+    }
+    return Utils.calculateGCF(b, a % b);
+  }
+
   static updateSliderValue(sliderElement) {
     const name = sliderElement.id;
     const valueElement = document.getElementById(name.replace('Slider','Value'));
