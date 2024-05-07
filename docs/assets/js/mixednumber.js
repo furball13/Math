@@ -9,6 +9,16 @@ export class MixedNumber {
 }
 
 MixedNumber.prototype.add = function(other, simplify = true) {
+  let ans = new MixedNumber( this.whole + other.whole, this.num * other.denom + other.num * this.denom, this.denom * other.denom);
+
+  if (simplify) {
+    ans.simplify();
+  }
+
+  return ans;
+}
+
+MixedNumber.prototype.addTo = function(other, simplify = true) {
   this.num = this.num * other.denom + other.num * this.denom;
   this.denom = this.denom * other.denom;
   this.whole = this.whole + other.whole;
@@ -28,10 +38,38 @@ MixedNumber.prototype.subtract = function(other, simplify = true) {
   }
 }
 
-MixedNumber.prototype.multiply = function(other) {
+MixedNumber.prototype.subtractValue = function(other, simplify = true) {
+  this.num = this.num * other.denom - other.num * this.denom;
+  this.denom = this.denom * other.denom;
+  this.whole = this.whole - other.whole;
+
+  if (simplify) {
+    this.simplify();
+  }
 }
 
-MixedNumber.prototype.divide = function(other) {
+MixedNumber.prototype.multiplyBy = function(other) {
+}
+
+MixedNumber.prototype.divideBy = function(other) {
+}
+
+MixedNumber.prototype.multiplyBy = function(other) {
+}
+
+MixedNumber.prototype.divideBy = function(other) {
+}
+
+MixedNumber.prototype.getWhole() {
+  return this.whole;
+}
+
+MixedNumber.prototype.getNumerator() {
+  return this.num;
+}
+
+MixedNumber.prototype.getDenominator() {
+  return this.denom;
 }
 
 MixedNumber.prototype.ldc = function(other) {
