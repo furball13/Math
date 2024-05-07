@@ -66,8 +66,6 @@ FractionProblem.prototype.generateSecondTerm = function() {
     denom = (this.commonDenominator == 'always') ? this.firstTerm.getDenominator : Math.floor(Math.random * (this.maxDenominator - 1) + 2);
   } while (this.commonDenominator == 'never' && denom == this.firstTerm.getDenominator);
 
-  let gcf = 1;
-
   do {
     opChoice = Math.floor(Math.random() * this.ops.length);
 
