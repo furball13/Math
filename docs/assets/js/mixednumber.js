@@ -82,9 +82,7 @@ MixedNumber.prototype.simplify = function() {
 }
 
 MixedNumber.prototype.reduce = function() {
-  var gcd = 1;
-  do {
-  } while (gcd > 1);
+  [this.num, this.denom] = Utils.reduce(this.num, this.denom);
 }
 
 MixedNumber.prototype.regroup = function() {
