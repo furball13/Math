@@ -72,7 +72,8 @@ MixedNumber.prototype.getDenominator() {
   return this.denom;
 }
 
-MixedNumber.prototype.ldc = function(other) {
+MixedNumber.prototype.lcd = function(other) {
+  return (this.denom * other.denom) / Utils.calculateGCF(this.denom, other.denom);
 }
 
 MixedNumber.prototype.simplify = function() {
