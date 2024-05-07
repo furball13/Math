@@ -1,5 +1,6 @@
 import { Utils } from '/assets/js/utils.js';
 import { Problem } from '/assets/js/problem.js';
+import { MixedNumber } from '/assets/js/mixednumber.js';
 
 export class FractionProblem extends Problem {
   constructor(params) {
@@ -11,9 +12,9 @@ export class FractionProblem extends Problem {
     this.regroupingRequired = params.regroupingRequired;
     this.simplifyAnswer = params.simplifyAnswer;
     this.ops = [];
-    this.firstTerm = { whole: 0, num: 1, denom: 3 };
-    this.secondTerm = { whole: 0, num: 1, denom: 3 };
-    this.solution = { whole: 0, num: 2, denom: 3 };
+    this.firstTerm = new MixedNumber();
+    this.secondTerm = new MixedNumber();
+    this.solution = new MixedNumber();
 
     if (params.additionCheck) { this.ops.push('+'); }
     if (params.subtractionCheck) { this.ops.push('-'); }
@@ -25,7 +26,7 @@ export class FractionProblem extends Problem {
 FractionProblem.prototype.generate = function() {
   this.opChoice = Math.floor(Math.random() * this.ops.length);
   this.generateFirstTerm();
-  //this.generateSecondTerm();  // includes calculating answer
+  this.generateSecondTerm();  // includes calculating answer
   this.buildDisplay();
 }
 
@@ -55,29 +56,39 @@ FractionProblem.prototype.generateFirstTerm = function() {
 
 /** Generate a second fraction within the parameters, that also gives an answer within parameters */
 FractionProblem.prototype.generateSecondTerm = function() {
-/*
-  let an = 0, ad = 1, bn = 0, bd = 1, opChoice = 0, ans = 0;
-  const oneMax = this.oneMagnitude;
-  const twoMin = this.negativesAllowed ? 0 - this.twoMagnitude : 0;
-  const twoMax = this.twoMagnitude;
+  let opChoice = 0;
+
+  if (this.mixedNumbers != 'never') {
+    do {
+      this.secondTerm.whole = Math.floor(Math.random() * 10); 
+    } while (this.mixedNumbers == 'always' && this.secondTerm.whole == 0);
+  }
 
   do {
-    ad = Utils.randomIntegerInRange(2, this.maxDemoninator);
-    b = Utils.randomIntegerInRange(twoMin, twoMax);
+    this.secondTerm.denom = (this.commonDenominator == 'always') ? this.firstTerm.denom : Math.floor(Math.random * (this.maxDenominator - 1) + 2);
+  } while (this.commonDenominator == 'never' && this.secondTerm.denom == this.firstTerm.denom);
 
+  let gcf = 1;
+
+  do {
     opChoice = Math.floor(Math.random() * this.ops.length);
 
     switch (this.ops[opChoice]) {
-      case '+': ans = (a + b); break;
-      case '-': ans = (a - b); break;
-      case '&times;': ans = (a * b); break;
-      case '&divide;': ans = (a / b); break;
+      case '+':
+	break;
+      case '-':
+	break;
+      case '&times;':
+	break;
+      case '&divide;':
+	break;
       default:
         console.log(`Undefined Operation: ${opChoice}`);
 	throw new Error('Please choose a valid operation.');
+	break;
     }
-  } while ( !Number.isInteger(ans) || (!this.negativesAllowed && ans < 0) );
-  */
+
+  } while ( /* answer is unacceptable? || */ (!this.negativesAllowed && (this.solution.whole < 0 || this.solution.num < 0)));
 }
 
 FractionProblem.prototype.buildDisplay = function() {
