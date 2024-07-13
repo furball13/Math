@@ -9,27 +9,26 @@ export class Problem {
     this.answer = '';
   }
 
-}
+  /** placeholder function - override in each problem type */
+  generate() {
+    // reset for new question
+    this.question = '';
+    this.answer = '';
+  }
 
-/** placeholder function - override in each problem type */
-Problem.prototype.generate = function() {
-  // reset for new question
-  this.question = '';
-  this.answer = '';
-}
+  getQuestion() {
+    return this.question;
+  }
 
-Problem.prototype.getQuestion = function() {
-  return this.question;
-}
+  getAnswer() {
+    return this.answer;
+  }
 
-Problem.prototype.getAnswer = function() {
-  return this.answer;
-}
+  toString() {
+    let response = [];
 
-Problem.prototype.toString = function() {
-  let response = [];
+    response.push(this.question, '=', this.answer);
 
-  response.push(this.question, '=', this.answer);
-
-  return response.join(' ');
+    return response.join(' ');
+  }
 }
