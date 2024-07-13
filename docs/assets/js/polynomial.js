@@ -13,8 +13,6 @@ export class PolynomialProblem extends Problem {
     this.quadPatternSelect = params.quadPatternSelect;
     this.factors = [];
     this.gcf = 1;
-    this.question = '';
-    this.answer = '';
 
     this.noGCF = this.gcfSelect == 'noGCF' || this.maxCoeff == 1;
     this.forceGCF = this.gcfSelect == 'forceGCF' && this.maxCoeff > 1 && (Math.abs(this.minConst) > 1 || Math.abs(this.maxConst) > 1);
@@ -27,11 +25,11 @@ export class PolynomialProblem extends Problem {
 }
 
 PolynomialProblem.prototype.generate = function() {
-  // reset
+  super.generate();
+
+  // reset for new question
   this.gcf = 1;
   this.factors = [];
-  this.question = '';
-  this.answer = '';
 
   this.generateFactors();
   this.calculateCoefficients();

@@ -18,6 +18,11 @@ export class ArithmeticProblem extends Problem {
 }
 
 ArithmeticProblem.prototype.generate = function() {
+  super.generate();
+
+  // reset for new question
+  this.questionParts = [];
+
   let a = 0, b = 0, opChoice = 0, ans = 0;
   const oneMin = this.negativesAllowed ? 0 - this.oneMagnitude : 0;
   const oneMax = this.oneMagnitude;

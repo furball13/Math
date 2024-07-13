@@ -13,6 +13,9 @@ export class Problem {
 
 /** placeholder function - override in each problem type */
 Problem.prototype.generate = function() {
+  // reset for new question
+  this.question = '';
+  this.answer = '';
 }
 
 Problem.prototype.getQuestion = function() {
