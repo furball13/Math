@@ -63,27 +63,33 @@ FractionProblem.prototype.generateSecondTerm = function() {
   }
 
   do {
-    denom = (this.commonDenominator == 'always') ? this.firstTerm.getDenominator : Math.floor(Math.random * (this.maxDenominator - 1) + 2);
-  } while (this.commonDenominator == 'never' && denom == this.firstTerm.getDenominator);
+    denom = (this.commonDenominator == 'always') ? this.firstTerm.getDenominator() : Math.floor(Math.random() * (this.maxDenominator - 1) + 2);
+  } while (this.commonDenominator == 'never' && denom == this.firstTerm.getDenominator());
+
+  this.secondTerm = new MixedNumber(whole, num, denom);
+  this.secondTerm.reduce();
+
+  opChoice = Math.floor(Math.random() * this.ops.length);
 
   do {
-    opChoice = Math.floor(Math.random() * this.ops.length);
-
     switch (this.ops[opChoice]) {
       case '+':
+        this.solution = this.firstTerm.sum(this.secondTerm);
 	break;
       case '-':
+        this.solution = this.firstTerm.difference(this.secondTerm);
 	break;
       case '&times;':
+        this.solution = this.firstTerm.product(this.secondTerm);
 	break;
       case '&divide;':
+        this.solution = this.firstTerm.quotient(this.secondTerm);
 	break;
       default:
         console.log(`Undefined Operation: ${opChoice}`);
 	throw new Error('Please choose a valid operation.');
 	break;
     }
-
   } while ( /* answer is unacceptable? || */ (!this.negativesAllowed && (this.solution.whole < 0 || this.solution.num < 0)));
 }
 
